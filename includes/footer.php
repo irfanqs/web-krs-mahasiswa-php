@@ -27,6 +27,14 @@
       color: #6B7280;
       background: #FFFFFF;
       margin-top: auto;
+      margin-left: var(--sidebar-width, 260px);
+    }
+
+    @media (max-width: 768px) {
+      .page-footer {
+        margin-left: 0;
+        padding: 24px;
+      }
     }
 
     .page-footer p {
