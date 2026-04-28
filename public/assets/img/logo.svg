@@ -1,0 +1,30 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Square background -->
+  <rect width="40" height="40" fill="#0B1E4F" rx="4"/>
+
+  <!-- Mortarboard (academic cap) -->
+  <!-- Mortarboard base line -->
+  <line x1="8" y1="24" x2="32" y2="24" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Left side of mortarboard -->
+  <line x1="8" y1="24" x2="10" y2="16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Right side of mortarboard -->
+  <line x1="32" y1="24" x2="30" y2="16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Top of mortarboard cap -->
+  <path d="M 10 16 L 20 8 L 30 16" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Book/Pages representation below -->
+  <g transform="translate(20, 28)">
+    <!-- Left page -->
+    <line x1="-6" y1="0" x2="-6" y2="8" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Right page -->
+    <line x1="6" y1="0" x2="6" y2="8" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Spine -->
+    <line x1="0" y1="0" x2="0" y2="8" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Optional: SG letters (very small, optional) -->
+  <text x="20" y="36" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">SG</text>
+</svg>

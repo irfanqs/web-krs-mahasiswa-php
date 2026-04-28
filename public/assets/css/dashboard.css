@@ -1,0 +1,986 @@
+/* SIAKAD Gallery — Dashboard & Page-Specific Styles */
+
+/* ============================================================================
+   Hero Card
+   ============================================================================ */
+.hero-card {
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 100%);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-card h2 {
+  color: var(--white);
+  margin-bottom: var(--spacing-sm);
+  font-size: 24px;
+}
+
+.hero-card-subtitle {
+  font-size: var(--font-size-base);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-xl);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  margin-bottom: var(--spacing-xs);
+}
+
+.hero-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ============================================================================
+   Quick Access Cards
+   ============================================================================ */
+.quick-access-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.quick-access-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xl);
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid transparent;
+}
+
+.quick-access-link:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--navy-500);
+  transform: translateY(-2px);
+}
+
+.quick-access-icon {
+  font-size: 28px;
+  color: var(--navy-500);
+  margin-right: var(--spacing-lg);
+}
+
+.quick-access-content {
+  flex: 1;
+}
+
+.quick-access-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-900);
+  margin-bottom: 2px;
+}
+
+.quick-access-desc {
+  font-size: 12px;
+  color: var(--text-500);
+}
+
+.quick-access-arrow {
+  font-size: 20px;
+  color: var(--navy-500);
+  margin-left: var(--spacing-md);
+}
+
+/* ============================================================================
+   Announcement/News Section
+   ============================================================================ */
+.announcement-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.announcement-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.announcement-item {
+  padding: var(--spacing-lg);
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--navy-500);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.announcement-item:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.announcement-item.type-academic {
+  border-left-color: var(--navy-500);
+}
+
+.announcement-item.type-system {
+  border-left-color: var(--success);
+}
+
+.announcement-item.type-event {
+  border-left-color: var(--warning);
+}
+
+.announcement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.announcement-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-900);
+  margin: 0;
+}
+
+.announcement-date {
+  font-size: 12px;
+  color: var(--text-500);
+}
+
+.announcement-type {
+  display: inline-block;
+}
+
+.announcement-desc {
+  font-size: var(--font-size-base);
+  color: var(--text-700);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.announcement-action {
+  font-size: 12px;
+  color: var(--navy-500);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.announcement-action:hover {
+  color: var(--navy-700);
+}
+
+/* ============================================================================
+   Session/Schedule Item
+   ============================================================================ */
+.session-item {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--navy-500);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.session-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  background-color: var(--bg);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+.session-hour {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.session-minute {
+  font-size: 12px;
+  color: var(--text-500);
+}
+
+.session-content {
+  flex: 1;
+}
+
+.session-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-900);
+  margin-bottom: 2px;
+}
+
+.session-detail {
+  font-size: 12px;
+  color: var(--text-500);
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.session-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.session-detail-icon {
+  font-size: 14px;
+  color: var(--text-500);
+}
+
+/* ============================================================================
+   Progress Card
+   ============================================================================ */
+.progress-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-label-text {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-900);
+}
+
+.progress-value {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--navy-500) 0%, var(--navy-700) 100%);
+  transition: width 0.3s ease;
+}
+
+/* ============================================================================
+   KRS-Specific Styles
+   ============================================================================ */
+.krs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.krs-filters {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.krs-filter-btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border);
+  background-color: var(--white);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.krs-filter-btn.active {
+  background-color: var(--navy-900);
+  color: var(--white);
+  border-color: var(--navy-900);
+}
+
+.krs-filter-btn:hover {
+  border-color: var(--navy-500);
+}
+
+/* Course/Matkul Row */
+.course-row {
+  display: grid;
+  grid-template-columns: 50px 100px 1fr 80px 200px 80px;
+  gap: var(--spacing-md);
+  align-items: center;
+  padding: var(--spacing-lg);
+  background-color: var(--card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: var(--spacing-md);
+  transition: var(--transition);
+}
+
+.course-row:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.course-row.selected {
+  background-color: #EEF0F8;
+  border-color: var(--navy-900);
+  border-left: 4px solid var(--navy-900);
+}
+
+.course-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--navy-900);
+}
+
+.course-code {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.course-name {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-900);
+}
+
+.course-type {
+  font-size: 11px;
+  color: var(--text-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.course-sks {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--navy-900);
+  text-align: center;
+}
+
+.course-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--text-700);
+}
+
+.course-schedule-item {
+  display: flex;
+  gap: 4px;
+}
+
+.course-schedule-label {
+  font-weight: 500;
+  color: var(--text-500);
+  min-width: 60px;
+}
+
+.course-action {
+  text-align: center;
+}
+
+/* KRS Footer Bar */
+.krs-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  border-top: 1px solid var(--border);
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-lg);
+  box-shadow: 0 -2px 10px rgba(11, 30, 79, 0.06);
+  z-index: 50;
+}
+
+.krs-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+
+.krs-progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.krs-progress-fill {
+  height: 100%;
+  background-color: var(--navy-500);
+  transition: width 0.3s ease;
+}
+
+.krs-progress-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-900);
+  white-space: nowrap;
+}
+
+.krs-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+/* ============================================================================
+   KHS-Specific Styles
+   ============================================================================ */
+.khs-semester-select {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+  align-items: center;
+}
+
+.khs-semester-label {
+  font-weight: 600;
+  color: var(--text-900);
+}
+
+.khs-semester-select select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+}
+
+.khs-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.khs-stat-card {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.khs-stat-card.active {
+  border-top: 4px solid var(--navy-900);
+  background: linear-gradient(135deg, #EEF0F8 0%, var(--card) 100%);
+}
+
+.khs-stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-500);
+  margin-bottom: var(--spacing-sm);
+}
+
+.khs-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.khs-notice {
+  background-color: var(--info-bg);
+  border: 1px solid rgba(244, 180, 60, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+  font-size: 13px;
+  color: #8B6F47;
+  line-height: 1.6;
+}
+
+/* ============================================================================
+   Schedule Grid
+   ============================================================================ */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 100px repeat(5, 1fr);
+  gap: 8px;
+  background-color: var(--white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow-x: auto;
+}
+
+.schedule-time-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-500);
+  background-color: var(--bg);
+  border-radius: var(--radius-md);
+}
+
+.schedule-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy-900);
+  background-color: var(--bg);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.schedule-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: var(--transition);
+  min-height: 80px;
+}
+
+.schedule-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.schedule-card.type-mandatory {
+  background: linear-gradient(135deg, var(--navy-500) 0%, var(--navy-700) 100%);
+}
+
+.schedule-card.type-elective {
+  background: linear-gradient(135deg, var(--success) 0%, #229A5D 100%);
+}
+
+.schedule-card.type-research {
+  background: linear-gradient(135deg, var(--warning) 0%, #D99A1F 100%);
+}
+
+.schedule-card.type-lab {
+  background: linear-gradient(135deg, #F39E45 0%, #E08B5F 100%);
+}
+
+.schedule-card-code {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.schedule-card-room {
+  font-size: 11px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.schedule-empty {
+  background-color: var(--bg);
+  border-radius: var(--radius-md);
+  min-height: 80px;
+}
+
+/* ============================================================================
+   Sidebar Components (Dashboard Right)
+   ============================================================================ */
+.dashboard-sidebar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+}
+
+.sidebar-card {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.sidebar-card.navy {
+  background-color: var(--navy-900);
+  color: var(--white);
+}
+
+.sidebar-card.navy h3 {
+  color: var(--white);
+}
+
+.sidebar-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sidebar-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  font-size: 13px;
+  color: var(--text-700);
+}
+
+.sidebar-list-item-icon {
+  font-size: 16px;
+  color: var(--text-500);
+}
+
+.sidebar-list-item.navy .sidebar-list-item-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================================================
+   Admin Dashboard Specific
+   ============================================================================ */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.admin-stat-card {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--navy-500);
+}
+
+.admin-stat-card.stat-mahasiswa::before {
+  background-color: #3B82F6;
+}
+
+.admin-stat-card.stat-dosen::before {
+  background-color: #10B981;
+}
+
+.admin-stat-card.stat-matkul::before {
+  background-color: #F59E0B;
+}
+
+.admin-stat-card.stat-krs::before {
+  background-color: #8B5CF6;
+}
+
+.admin-stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-500);
+  margin-bottom: var(--spacing-md);
+}
+
+.admin-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+.admin-stat-trend {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.admin-stat-trend.negative {
+  color: var(--danger);
+}
+
+.admin-stat-trend-icon {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+/* ============================================================================
+   Data Table Section
+   ============================================================================ */
+.table-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.table-header h3 {
+  margin: 0;
+}
+
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}
+
+.btn-action {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-edit {
+  background-color: rgba(42, 74, 158, 0.1);
+  color: var(--navy-900);
+}
+
+.btn-edit:hover {
+  background-color: rgba(42, 74, 158, 0.2);
+}
+
+.btn-delete {
+  background-color: rgba(224, 79, 95, 0.1);
+  color: var(--danger);
+}
+
+.btn-delete:hover {
+  background-color: rgba(224, 79, 95, 0.2);
+}
+
+.btn-view {
+  background-color: rgba(43, 182, 115, 0.1);
+  color: var(--success);
+}
+
+.btn-view:hover {
+  background-color: rgba(43, 182, 115, 0.2);
+}
+
+/* ============================================================================
+   Pagination
+   ============================================================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+.pagination-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-900);
+}
+
+.pagination-item:hover:not(.disabled):not(.active) {
+  border-color: var(--navy-500);
+  color: var(--navy-500);
+}
+
+.pagination-item.active {
+  background-color: var(--navy-900);
+  color: var(--white);
+  border-color: var(--navy-900);
+}
+
+.pagination-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   Responsive Adjustments for Dashboard
+   ============================================================================ */
+@media (max-width: 1024px) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-access-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .course-row {
+    grid-template-columns: 50px 80px 1fr 60px 1fr;
+  }
+
+  .khs-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .quick-access-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .course-row {
+    grid-template-columns: 50px 1fr 50px;
+    gap: var(--spacing-sm);
+  }
+
+  .course-info {
+    order: 3;
+    grid-column: 1 / -1;
+  }
+
+  .course-schedule {
+    order: 4;
+    grid-column: 1 / -1;
+  }
+
+  .schedule-grid {
+    grid-template-columns: 80px repeat(5, 80px);
+  }
+
+  .schedule-card {
+    min-height: 60px;
+    font-size: 11px;
+  }
+
+  .schedule-day-header {
+    font-size: 12px;
+  }
+
+  .krs-footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .krs-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .krs-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .course-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .schedule-grid {
+    grid-template-columns: 70px repeat(5, 70px);
+    gap: 4px;
+    padding: var(--spacing-md);
+  }
+
+  .schedule-card {
+    min-height: 50px;
+    padding: 4px;
+    font-size: 10px;
+  }
+
+  .schedule-time-slot,
+  .schedule-day-header {
+    font-size: 11px;
+  }
+}

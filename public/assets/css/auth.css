@@ -1,0 +1,500 @@
+/* SIAKAD Gallery — Authentication Page Styles */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+}
+
+.auth-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* ============================================================================
+   Left Panel (Navy Branding)
+   ============================================================================ */
+.auth-left {
+  flex: 0 0 40%;
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 100%);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-2xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-left::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.auth-left-content {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: 40px;
+}
+
+.auth-logo-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.auth-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.auth-heading {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-lg);
+  max-width: 90%;
+}
+
+.auth-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.95;
+  max-width: 85%;
+  margin-bottom: 40px;
+}
+
+.auth-footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.auth-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.auth-footer-links a {
+  color: inherit;
+  opacity: 0.9;
+  font-size: 12px;
+}
+
+.auth-footer-links a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   Right Panel (Login Form)
+   ============================================================================ */
+.auth-right {
+  flex: 0 0 60%;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-form-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.auth-form-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+.auth-form-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-500);
+}
+
+/* ============================================================================
+   Role Toggle
+   ============================================================================ */
+.role-toggle {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-2xl);
+  background-color: var(--bg);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+}
+
+.role-toggle-btn {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background-color: transparent;
+  color: var(--text-700);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.role-toggle-btn:hover {
+  background-color: rgba(11, 30, 79, 0.05);
+}
+
+.role-toggle-btn.active {
+  background-color: var(--navy-900);
+  color: var(--white);
+}
+
+/* ============================================================================
+   Form Fields
+   ============================================================================ */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  color: var(--text-500);
+  pointer-events: none;
+  font-size: 18px;
+}
+
+input[type='text'],
+input[type='password'] {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  color: var(--text-900);
+  transition: var(--transition);
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: var(--navy-500);
+  box-shadow: 0 0 0 3px rgba(42, 74, 158, 0.1);
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--spacing-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-500);
+  font-size: 18px;
+  padding: 0;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.password-toggle:hover {
+  color: var(--navy-500);
+}
+
+/* ============================================================================
+   Checkbox & Remember
+   ============================================================================ */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--navy-900);
+}
+
+.form-check-label {
+  font-size: var(--font-size-base);
+  color: var(--text-700);
+  cursor: pointer;
+  margin: 0;
+}
+
+/* ============================================================================
+   Submit Button
+   ============================================================================ */
+.btn-submit {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--navy-900);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--navy-700);
+}
+
+.btn-submit:active:not(:disabled) {
+  background-color: var(--navy-500);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-submit-icon {
+  font-size: 18px;
+}
+
+/* ============================================================================
+   Forgot Password Link
+   ============================================================================ */
+.auth-links {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.forgot-password {
+  font-size: var(--font-size-base);
+  color: var(--navy-500);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.forgot-password:hover {
+  color: var(--navy-700);
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   Flash Messages
+   ============================================================================ */
+.auth-alert {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.auth-alert-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+.auth-alert-content {
+  flex: 1;
+}
+
+.auth-alert-message {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.auth-alert-success {
+  background-color: rgba(43, 182, 115, 0.1);
+  border: 1px solid rgba(43, 182, 115, 0.3);
+  color: var(--success);
+}
+
+.auth-alert-error {
+  background-color: rgba(224, 79, 95, 0.1);
+  border: 1px solid rgba(224, 79, 95, 0.3);
+  color: var(--danger);
+}
+
+.auth-alert-warning {
+  background-color: var(--info-bg);
+  border: 1px solid rgba(244, 180, 60, 0.3);
+  color: #D99A1F;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+@media (max-width: 1024px) {
+  .auth-left {
+    flex: 0 0 35%;
+    padding: var(--spacing-xl);
+  }
+
+  .auth-right {
+    flex: 0 0 65%;
+  }
+
+  .auth-heading {
+    font-size: 28px;
+  }
+
+  .auth-subheading {
+    font-size: 14px;
+  }
+
+  .auth-form-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-left {
+    flex: none;
+    width: 100%;
+    height: 30vh;
+    justify-content: center;
+    padding: var(--spacing-xl);
+  }
+
+  .auth-right {
+    flex: none;
+    width: 100%;
+    height: 70vh;
+    padding: var(--spacing-lg);
+  }
+
+  .auth-heading {
+    font-size: 24px;
+    max-width: 100%;
+  }
+
+  .auth-subheading {
+    display: none;
+  }
+
+  .auth-footer {
+    display: none;
+  }
+
+  .auth-form-title {
+    font-size: 24px;
+  }
+
+  .role-toggle {
+    flex-direction: column;
+  }
+
+  .role-toggle-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  .auth-left {
+    height: auto;
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
+
+  .auth-right {
+    height: auto;
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
+
+  .auth-logo {
+    margin-bottom: 20px;
+  }
+
+  .auth-heading {
+    font-size: 20px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .auth-form-wrapper {
+    max-width: 100%;
+  }
+
+  .auth-form-title {
+    font-size: 20px;
+  }
+
+  input[type='text'],
+  input[type='password'] {
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) 40px;
+  }
+
+  .input-icon {
+    left: var(--spacing-sm);
+  }
+
+  .password-toggle {
+    right: var(--spacing-sm);
+  }
+}
