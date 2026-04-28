@@ -12,7 +12,7 @@
       <a href="#">Kebijakan Privasi</a> &middot;
       <a href="#">Syarat Penggunaan</a>
     </div>
-    <p>SIAKAD Gallery © 2024 · Sistem Informasi Akademik Terpadu</p>
+    <p>SIAKAD Gallery © 2026 · Sistem Informasi Akademik Terpadu</p>
   </footer>
 
   <!-- Global Scripts -->
