@@ -73,19 +73,29 @@ try {
         JOIN krs k ON n.id_krs = k.id_krs
         JOIN jadwal_kuliah jk ON k.id_jadwal = jk.id_jadwal
         JOIN mata_kuliah mk ON jk.id_matkul = mk.id_matkul
-        WHERE k.id_mahasiswa = ? AND jk.id_semester < ? AND n.status_kunci = 1
+        WHERE k.id_mahasiswa = ? AND n.status_kunci = 1
     ");
-    $stmt->execute([$nim, $id_semester]);
+    $stmt->execute([$nim]);
     $ipk_data = $stmt->fetch();
     $ipk = floatval($ipk_data['ipk'] ?? 0);
 
     // Get max SKS based on IPK
     $max_sks = get_max_sks($ipk);
 
+    // 0. Delete existing KRS for this semester before validation 
+    // This ensures current enrollments don't block kuota checks or create false duplicates.
+    $stmt = $pdo->prepare("
+        DELETE FROM krs
+        WHERE id_mahasiswa = ? AND id_jadwal IN (
+            SELECT id_jadwal FROM jadwal_kuliah WHERE id_semester = ?
+        )
+    ");
+    $stmt->execute([$nim, $id_semester]);
+
     // 1. Get jadwal info and calculate total SKS
     $stmt = $pdo->prepare("
         SELECT jk.id_jadwal, jk.hari, jk.jam_mulai, jk.jam_selesai, jk.kuota, mk.sks,
-               COUNT(k.id_krs) as current_enrollment
+               COUNT(k.id_krs) as current_enrollment, mk.id_matkul, mk.nama_matkul
         FROM jadwal_kuliah jk
         JOIN mata_kuliah mk ON jk.id_matkul = mk.id_matkul
         LEFT JOIN krs k ON jk.id_jadwal = k.id_jadwal
@@ -154,28 +164,15 @@ try {
         }
     }
 
-    // 6. Check if already enrolled in same course
-    foreach ($jadwal_ids as $id) {
-        $stmt = $pdo->prepare("
-            SELECT COUNT(*) as count FROM krs k
-            JOIN jadwal_kuliah jk ON k.id_jadwal = jk.id_jadwal
-            WHERE k.id_mahasiswa = ? AND jk.id_matkul = (SELECT id_matkul FROM jadwal_kuliah WHERE id_jadwal = ?)
-                AND jk.id_semester = ?
-        ");
-        $stmt->execute([$nim, $id, $id_semester]);
-        if ($stmt->fetchColumn() > 0) {
-            throw new Exception("Anda sudah terdaftar di mata kuliah ini");
+    // 6. Check if multiple schedules selected for the same course in this payload
+    $selected_matkul = [];
+    foreach ($jadwal_selected as $j) {
+        $id_mk = $j['id_matkul'];
+        if (isset($selected_matkul[$id_mk])) {
+            throw new Exception("Anda memilih lebih dari satu kelas untuk mata kuliah " . $j['nama_matkul']);
         }
+        $selected_matkul[$id_mk] = true;
     }
-
-    // 7. Delete existing KRS for this semester
-    $stmt = $pdo->prepare("
-        DELETE FROM krs
-        WHERE id_mahasiswa = ? AND id_jadwal IN (
-            SELECT id_jadwal FROM jadwal_kuliah WHERE id_semester = ?
-        )
-    ");
-    $stmt->execute([$nim, $id_semester]);
 
     // 8. Insert new KRS
     foreach ($jadwal_ids as $id) {

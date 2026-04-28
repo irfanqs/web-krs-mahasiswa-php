@@ -110,6 +110,8 @@ foreach ($available_courses as $course) {
     }
 }
 
+$is_krs_locked = $current_sks > 0 && !isset($_GET['edit']);
+
 $page_title = 'Pengisian KRS';
 $current_page = 'krs';
 
@@ -128,6 +130,16 @@ $current_page = 'krs';
     <style>
         .page-header {
             margin-bottom: var(--spacing-2xl);
+        }
+
+        @media print {
+            .sidebar, .topbar, .sticky-footer, .alert, .btn { display: none !important; }
+            .page-layout { margin-left: 0 !important; }
+            .page-content { padding: 0 !important; }
+            body { background: white !important; }
+            .card { box-shadow: none !important; border: 1px solid #E5E7EB; }
+            .card-navy { background: white !important; color: black !important; }
+            .card-navy .card-title, .card-navy .card-value { color: black !important; }
         }
 
         .page-title {
@@ -426,21 +438,34 @@ $current_page = 'krs';
             <?php include '../../includes/header.php'; ?>
 
             <main class="page-content">
-                <div class="page-header">
-                    <h1 class="page-title">Pengisian KRS</h1>
-                    <p class="page-subtitle">
-                        Semester <?= h($semester_aktif['tingkatan_semester'] === 'ganjil' ? 'Ganjil' : 'Genap') ?>
-                        <?= h($semester_aktif['tahun_ajaran'] ?? '2024/2025') ?>
-                    </p>
+                <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                    <div>
+                        <h1 class="page-title">Pengisian KRS</h1>
+                        <p class="page-subtitle">
+                            Semester <?= h($semester_aktif['tingkatan_semester'] === 'ganjil' ? 'Ganjil' : 'Genap') ?>
+                            <?= h($semester_aktif['tahun_ajaran'] ?? '2024/2025') ?>
+                        </p>
+                    </div>
+                    <?php if ($is_krs_locked): ?>
+                        <div style="display: flex; gap: 12px;" class="header-actions">
+                            <a href="?edit=1" class="btn btn-secondary"><i class="bi bi-pencil"></i> Revisi KRS</a>
+                            <button class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer"></i> Cetak KRS</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Validation Alert -->
+                <?php if (!$is_krs_locked): ?>
                 <div class="alert">
                     <i class="bi bi-info-circle"></i>
-                    <strong>Sistem Validasi:</strong> Anda telah memilih <strong><?= $current_sks ?> SKS</strong>.
-                    Batas maksimal pengambilan Anda berdasarkan IPK semester lalu adalah <strong><?= $max_sks ?> SKS</strong>.
-                    Harap teliti kembali jadwal yang bentrok.
+                    <strong>Sistem Validasi:</strong> Anda sedang dalam mode pengisian. Batas maksimal pengambilan Anda berdasarkan IPK semester lalu adalah <strong><?= $max_sks ?> SKS</strong>.
                 </div>
+                <?php else: ?>
+                <div class="alert" style="background: #E8F5E9; border-left: 4px solid #4CAF50; color: #2E7D32;">
+                    <i class="bi bi-check-circle-fill" style="margin-right: 12px; font-size: 18px;"></i>
+                    <strong>KRS Disetujui:</strong> Anda telah mengambil <strong><?= $current_sks ?> SKS</strong> pada semester ini. Anda dapat mencetak form ini sebagai bukti rencana studi Anda.
+                </div>
+                <?php endif; ?>
 
                 <!-- Statistics Cards -->
                 <div class="grid-4">
@@ -486,16 +511,75 @@ $current_page = 'krs';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; foreach ($available_courses as $course):
+                            <!-- Daftar KRS Yang Telah Diambil (Terpilih) -->
+                            <?php 
+                            $no = 1; 
+                            $has_selected = false;
+                            foreach ($available_courses as $course):
                                 $is_selected = isset($selected_jadwal_map[$course['id_jadwal']]);
+                                if (!$is_selected) continue;
+                                $has_selected = true;
                                 $is_full = $course['sks_terdaftar'] >= $course['kuota'];
                             ?>
-                                <tr class="course-row <?= $is_selected ? 'selected' : '' ?>" data-jadwal-id="<?= $course['id_jadwal'] ?>" data-sks="<?= $course['sks'] ?>" data-jenis="<?= $course['jenis'] ?>">
+                                <tr class="course-row selected" data-jadwal-id="<?= $course['id_jadwal'] ?>" data-sks="<?= $course['sks'] ?>" data-jenis="<?= $course['jenis'] ?>">
+                                    <td style="text-align: center;">
+                                        <?php if ($is_krs_locked): ?>
+                                            <i class="bi bi-check-circle-fill" style="color: #10B981; font-size: 18px;"></i>
+                                        <?php else: ?>
+                                            <input type="checkbox" class="table-checkbox course-checkbox"
+                                                   value="<?= $course['id_jadwal'] ?>" checked>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= $no++ ?></td>
+                                    <td><strong><?= h($course['kode_matkul']) ?></strong></td>
+                                    <td>
+                                        <div class="course-name">
+                                            <?= h($course['nama_matkul']) ?>
+                                            <span class="course-badge badge-<?= $course['jenis'] ?>">
+                                                <?= ucfirst($course['jenis']) ?>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center;"><strong><?= $course['sks'] ?></strong></td>
+                                    <td>
+                                        <div class="schedule-info">
+                                            <div class="schedule-item">
+                                                <i class="bi bi-calendar3"></i>
+                                                <?= h($course['hari']) ?> <?= substr($course['jam_mulai'], 0, 5) ?>-<?= substr($course['jam_selesai'], 0, 5) ?>
+                                            </div>
+                                            <div class="schedule-item">
+                                                <i class="bi bi-geo-alt"></i>
+                                                <?= h($course['ruang']) ?>
+                                            </div>
+                                            <div class="schedule-item">
+                                                <i class="bi bi-person"></i>
+                                                <?= h($course['nama_dosen']) ?>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            <?php if (!$is_krs_locked && $has_selected): ?>
+                                <tr style="background: #F3F4F6;">
+                                    <td colspan="6" style="padding: 16px 24px; font-weight: 700; color: var(--navy-900); font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">
+                                        MATA KULIAH TERSEDIA (BELUM DIAMBIL)
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+
+                            <!-- Daftar Mata Kuliah Tersedia (Belum Terpilih) -->
+                            <?php if (!$is_krs_locked): ?>
+                            <?php foreach ($available_courses as $course):
+                                $is_selected = isset($selected_jadwal_map[$course['id_jadwal']]);
+                                if ($is_selected) continue;
+                                $is_full = $course['sks_terdaftar'] >= $course['kuota'];
+                            ?>
+                                <tr class="course-row" data-jadwal-id="<?= $course['id_jadwal'] ?>" data-sks="<?= $course['sks'] ?>" data-jenis="<?= $course['jenis'] ?>">
                                     <td>
                                         <input type="checkbox" class="table-checkbox course-checkbox"
                                                value="<?= $course['id_jadwal'] ?>"
-                                               <?= $is_selected ? 'checked' : '' ?>
-                                               <?= $is_full && !$is_selected ? 'disabled' : '' ?>>
+                                               <?= $is_full ? 'disabled' : '' ?>>
                                     </td>
                                     <td><?= $no++ ?></td>
                                     <td><strong><?= h($course['kode_matkul']) ?></strong></td>
@@ -532,10 +616,12 @@ $current_page = 'krs';
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </main>
+            <?php if (!$is_krs_locked): ?>
             <!-- Sticky Footer -->
             <div class="sticky-footer">
                 <div class="footer-progress">
@@ -557,6 +643,7 @@ $current_page = 'krs';
                     </button>
                 </div>
             </div>
+            <?php endif; ?>
             
         </div>
     </div>
@@ -635,19 +722,17 @@ $current_page = 'krs';
             }
 
             // Send to server
-            const formData = new FormData();
-            formData.append('id_mahasiswa', '<?= $nim ?>');
-            formData.append('id_semester', '<?= $id_semester ?>');
-            selectedJadwal.forEach(jadwal => {
-                formData.append('jadwal_kuliah[]', jadwal);
-            });
-
             btnSave.disabled = true;
             btnSave.textContent = 'Menyimpan...';
 
-            fetch('/api/krs_save.php', {
+            fetch(window.APP_URL + '/api/krs_save.php', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    jadwal_ids: selectedJadwal
+                })
             })
             .then(response => response.json())
             .then(data => {
