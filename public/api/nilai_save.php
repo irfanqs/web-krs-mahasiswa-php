@@ -6,10 +6,10 @@
 
 header('Content-Type: application/json');
 
-require_once '../includes/config.php';
-require_once '../includes/db.php';
-require_once '../includes/auth.php';
-require_once '../includes/helpers.php';
+require_once '../../includes/config.php';
+require_once '../../includes/db.php';
+require_once '../../includes/auth.php';
+require_once '../../includes/helpers.php';
 
 // Check authentication and role
 if (!is_logged_in() || $_SESSION['role'] !== 'dosen') {
