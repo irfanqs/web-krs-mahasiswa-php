@@ -126,23 +126,6 @@ $current_page = 'krs';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
-        .page-layout {
-            margin-left: 240px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .page-main {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .page-content {
-            padding: var(--spacing-2xl);
-            max-width: 100%;
-        }
-
         .page-header {
             margin-bottom: var(--spacing-2xl);
         }
@@ -329,10 +312,11 @@ $current_page = 'krs';
         .sticky-footer {
             position: sticky;
             bottom: 0;
-            left: 240px;
+            left: 0;
+            width: 100%;
             background: white;
             border-top: 1px solid var(--border);
-            padding: var(--spacing-lg) var(--spacing-2xl);
+            padding: var(--spacing-lg) 48px;
             box-shadow: 0 -2px 10px rgba(11, 30, 79, 0.06);
             display: flex;
             justify-content: space-between;
@@ -413,14 +397,10 @@ $current_page = 'krs';
         }
 
         @media (max-width: 768px) {
-            .page-layout {
-                margin-left: 0;
-            }
-
             .sticky-footer {
-                left: 0;
                 flex-direction: column;
                 align-items: stretch;
+                padding: var(--spacing-lg) 24px;
             }
 
             .grid-4 {
@@ -556,28 +536,28 @@ $current_page = 'krs';
                     </table>
                 </div>
             </main>
-        </div>
-    </div>
-
-    <!-- Sticky Footer -->
-    <div class="sticky-footer">
-        <div class="footer-progress">
-            <span class="progress-text">
-                SELECTION PROGRESS: <strong id="sks-counter"><?= $current_sks ?></strong>/<strong><?= $max_sks ?></strong> SKS SELECTED
-            </span>
-            <span class="progress-text">
-                TOTAL COURSES: <strong id="course-counter">0</strong> Units
-            </span>
-        </div>
-        <div class="footer-actions">
-            <button class="btn btn-secondary" id="btn-reset">
-                <i class="bi bi-arrow-clockwise"></i>
-                Reset Selection
-            </button>
-            <button class="btn btn-primary" id="btn-save">
-                <i class="bi bi-check-circle"></i>
-                Simpan KRS
-            </button>
+            <!-- Sticky Footer -->
+            <div class="sticky-footer">
+                <div class="footer-progress">
+                    <span class="progress-text">
+                        SELECTION PROGRESS: <strong id="sks-counter"><?= $current_sks ?></strong>/<strong><?= $max_sks ?></strong> SKS SELECTED
+                    </span>
+                    <span class="progress-text">
+                        TOTAL COURSES: <strong id="course-counter">0</strong> Units
+                    </span>
+                </div>
+                <div class="footer-actions">
+                    <button class="btn btn-secondary" id="btn-reset">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset Selection
+                    </button>
+                    <button class="btn btn-primary" id="btn-save">
+                        <i class="bi bi-check-circle"></i>
+                        Simpan KRS
+                    </button>
+                </div>
+            </div>
+            
         </div>
     </div>
 
