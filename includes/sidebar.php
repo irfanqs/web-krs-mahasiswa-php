@@ -138,23 +138,7 @@ if ($user_role === 'mahasiswa') {
                 ],
             ]
         ],
-        [
-            'section' => 'Monitoring',
-            'items' => [
-                [
-                    'icon' => 'bi-clipboard-check',
-                    'label' => 'Monitoring KRS',
-                    'url' => '/admin/monitoring_krs.php',
-                    'page' => 'monitoring_krs'
-                ],
-                [
-                    'icon' => 'bi-graph-up',
-                    'label' => 'Laporan Akademik',
-                    'url' => '/admin/laporan.php',
-                    'page' => 'laporan'
-                ],
-            ]
-        ],
+
     ];
 }
 ?>
