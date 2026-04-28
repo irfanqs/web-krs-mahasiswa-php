@@ -398,7 +398,7 @@ function saveKRS() {
   saveBtn.textContent = 'Menyimpan...';
 
   // Send AJAX request
-  window.SIAKAD.ajaxRequest('/web-krs-mahasiswa/public/api/krs_save.php', {
+  window.SIAKAD.ajaxRequest(window.SIAKAD.getAppUrl() + '/api/krs_save.php', {
     method: 'POST',
     body: {
       jadwal_ids: jadwalIds,

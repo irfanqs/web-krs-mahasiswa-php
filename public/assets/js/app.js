@@ -237,8 +237,11 @@ function ajaxRequest(url, options = {}) {
 // ============================================================================
 
 function getAppUrl() {
+  if (typeof window.APP_URL !== 'undefined') {
+    return window.APP_URL;
+  }
   const baseUrl = document.querySelector('meta[name="app-url"]');
-  return baseUrl ? baseUrl.getAttribute('content') : '/web-krs-mahasiswa/public';
+  return baseUrl ? baseUrl.getAttribute('content') : '';
 }
 
 // ============================================================================
