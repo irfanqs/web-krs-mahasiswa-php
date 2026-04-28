@@ -735,7 +735,7 @@ $first_name = explode(' ', $mahasiswa['nama'] ?? 'Budi')[0];
                         <div class="card">
                             <div class="section-header">
                                 <h2>Today's Sessions</h2>
-                                <div class="badge-date"><?= date('M, d Oct') ?></div>
+                                <div class="badge-date"><?= date('M d, Y') ?></div>
                             </div>
                             <div class="session-list">
                                 <?php 
