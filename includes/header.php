@@ -37,34 +37,7 @@ $role_label = $role_display[$user_role] ?? 'User';
     z-index: 90;
   }
 
-  .topbar-search-wrapper {
-    position: relative;
-    width: 320px;
-  }
-
-  .topbar-search-wrapper i {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9CA3AF;
-  }
-
-  .topbar-search-input {
-    width: 100%;
-    background: #F3F4F6;
-    border: none;
-    padding: 12px 16px 12px 40px;
-    border-radius: 99px;
-    font-size: 13px;
-    color: #374151;
-    font-weight: 500;
-  }
-
-  .topbar-search-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #E0E7FF;
-  }
+  /* Search bar styles removed */
 
   .topbar-actions {
     display: flex;
@@ -138,9 +111,7 @@ $role_label = $role_display[$user_role] ?? 'User';
     .topbar {
       padding: 16px 24px;
     }
-    .topbar-search-wrapper {
-      display: none;
-    }
+    /* Mobile search wrapper hidden removed */
     .role-switcher-btn {
       display: none;
     }
@@ -149,10 +120,7 @@ $role_label = $role_display[$user_role] ?? 'User';
 
 <div class="topbar">
   <div class="topbar-left">
-    <div class="topbar-search-wrapper">
-      <i class="bi bi-search"></i>
-      <input type="text" class="topbar-search-input" placeholder="Search courses, news, or grades..." />
-    </div>
+    <!-- Search bar removed based on user feedback -->
   </div>
 
   <div class="topbar-actions">
