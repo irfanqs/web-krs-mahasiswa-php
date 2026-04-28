@@ -445,14 +445,14 @@ $current_page = 'krs';
                 <!-- Statistics Cards -->
                 <div class="grid-4">
                     <div class="card card-navy">
-                        <div class="card-title">IPK Semester Lalu</div>
-                        <div class="card-value"><?= number_format($ipk, 2) ?></div>
-                        <div class="card-subtitle">Cumulative GPA</div>
+                        <div class="card-title">SKS Dipilih</div>
+                        <div class="card-value"><span id="sks-counter"><?= $current_sks ?></span> <span style="font-size: 16px; font-weight: normal; opacity: 0.8;">/ <?= $max_sks ?></span></div>
+                        <div class="card-subtitle">Selection progress</div>
                     </div>
                     <div class="card card-navy">
-                        <div class="card-title">Max SKS</div>
-                        <div class="card-value"><?= $max_sks ?></div>
-                        <div class="card-subtitle">Eligible limit</div>
+                        <div class="card-title">Total Kursus Dipilih</div>
+                        <div class="card-value" id="course-counter">0</div>
+                        <div class="card-subtitle">Total selected courses</div>
                     </div>
                     <div class="card">
                         <div class="card-title">Wajib vs Pilihan</div>
@@ -540,10 +540,10 @@ $current_page = 'krs';
             <div class="sticky-footer">
                 <div class="footer-progress">
                     <span class="progress-text">
-                        SELECTION PROGRESS: <strong id="sks-counter"><?= $current_sks ?></strong>/<strong><?= $max_sks ?></strong> SKS SELECTED
+                        IPK SEMESTER LALU: <strong><?= number_format($ipk, 2) ?></strong>
                     </span>
                     <span class="progress-text">
-                        TOTAL COURSES: <strong id="course-counter">0</strong> Units
+                        BATAS SKS: <strong><?= $max_sks ?></strong> Maks SKS
                     </span>
                 </div>
                 <div class="footer-actions">
