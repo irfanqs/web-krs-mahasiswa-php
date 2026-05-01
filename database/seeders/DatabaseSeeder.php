@@ -102,9 +102,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('pengumuman')->insert([
-            ['judul' => 'Pengisian KRS Semester Genap 2023/2024 Dibuka',   'isi' => 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2024.', 'tipe' => 'ACADEMIC'],
-            ['judul' => 'Jadwal UTS Semester Genap 2023/2024',             'isi' => 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2024. Detail jadwal akan diumumkan lebih lanjut.',          'tipe' => 'ACADEMIC'],
-            ['judul' => 'Beasiswa Prestasi Akademik 2024 Dibuka',          'isi' => 'Pendaftaran beasiswa prestasi akademik tahun 2024 sudah dibuka. Silakan kunjungi portal beasiswa untuk informasi lebih lanjut.', 'tipe' => 'EVENT'],
+            ['judul' => 'Pengisian KRS Semester Genap 2023/2024 Dibuka',   'isi' => 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2024.', 'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Jadwal UTS Semester Genap 2023/2024',             'isi' => 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2024. Detail jadwal akan diumumkan lebih lanjut.',          'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Beasiswa Prestasi Akademik 2024 Dibuka',          'isi' => 'Pendaftaran beasiswa prestasi akademik tahun 2024 sudah dibuka. Silakan kunjungi portal beasiswa untuk informasi lebih lanjut.', 'tipe' => 'EVENT', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

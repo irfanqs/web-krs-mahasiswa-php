@@ -71,7 +71,7 @@
                 <div class="announcement-item">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                         <span class="badge badge-{{ strtolower($p->tipe) }}">{{ $p->tipe }}</span>
-                        <small style="color:#6B7489;">{{ $p->created_at->format('d M Y') }}</small>
+                        <small style="color:#6B7489;">{{ $p->created_at ? $p->created_at->format('d M Y') : '' }}</small>
                     </div>
                     <div style="font-size:14px;font-weight:600;color:#0B1E4F;">{{ $p->judul }}</div>
                 </div>
