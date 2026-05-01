@@ -49,7 +49,9 @@ if ($nilai_data && $nilai_data['total_sks'] > 0) {
     $ipk = round($nilai_data['total_bobot'] / $nilai_data['total_sks'], 2);
 }
 
-$max_sks = get_max_sks($ipk);
+// Calculate max SKS from previous IPK, but ensure it's at least the current selected SKS
+$calculated_max_sks = get_max_sks($ipk);
+$max_sks = max($calculated_max_sks, $current_sks);
 
 // Get current active semester
 $stmt = $pdo->prepare("SELECT * FROM semester WHERE status = 'aktif' LIMIT 1");

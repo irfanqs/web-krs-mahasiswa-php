@@ -1,188 +1,66 @@
-# SIAKAD Gallery — Sistem Informasi KRS Mahasiswa
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Portal Akademik Terpadu untuk Mahasiswa, Dosen, dan Admin berbasis **PHP Native + MySQL**.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
----
+## About Laravel
 
-## Cara Menjalankan
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-### Prasyarat
-- PHP 8.x
-- MySQL 8.x / MariaDB 10.x
-- Web server (Apache/Nginx) atau XAMPP/Laragon
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-### 1. Setup Database
-```bash
-# Buat database
-mysql -u root -p -e "CREATE DATABASE web_krs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-# Import schema
-mysql -u root -p web_krs < database/schema.sql
+## Learning Laravel
 
-# Import data dummy
-mysql -u root -p web_krs < database/seed.sql
-```
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-### 2. Konfigurasi Aplikasi
-Edit file `includes/config.php`:
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'web_krs');
-define('DB_USER', 'root');
-define('DB_PASS', '');   // sesuaikan password MySQL Anda
-define('APP_URL', 'http://localhost/web-krs-mahasiswa/public');
-```
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-### 3. Jalankan Aplikasi
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-**Opsi A: XAMPP**
-1. Copy folder `web-krs-mahasiswa/` ke `C:/xampp/htdocs/`
-2. Buka: `http://localhost/web-krs-mahasiswa/public/`
+## Laravel Sponsors
 
-**Opsi B: PHP Built-in Server**
-```bash
-php -S localhost:8000 -t public
-# Buka: http://localhost:8000
-```
-> Catatan: Update `APP_URL` di config.php menjadi `http://localhost:8000`
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-**Opsi C: Laragon**
-1. Copy folder ke `C:/laragon/www/`
-2. Update `APP_URL` di config.php ke URL yang sesuai.
+### Premium Partners
 
----
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-## Akun Demo
+## Contributing
 
-| Role       | Username / NIM     | Password      |
-|------------|--------------------|---------------|
-| Mahasiswa  | `21010023`         | `password123` |
-| Mahasiswa  | `21010045`         | `password123` |
-| Dosen      | `198504122010`     | `password123` |
-| Dosen      | `197803052008`     | `password123` |
-| Admin      | `admin`            | `password123` |
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
----
+## Code of Conduct
 
-## Struktur Folder
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```
-web-krs-mahasiswa/
-├── database/
-│   ├── schema.sql          ← DDL semua tabel
-│   └── seed.sql            ← Data dummy
-├── public/                 ← Document root
-│   ├── index.php           ← Redirect ke login
-│   ├── assets/
-│   │   ├── css/            ← style.css, auth.css, dashboard.css
-│   │   ├── js/             ← app.js, krs.js
-│   │   └── img/            ← logo.svg, uploads/
-│   ├── auth/
-│   │   ├── login.php
-│   │   └── logout.php
-│   ├── mahasiswa/
-│   │   ├── dashboard.php
-│   │   ├── profil.php
-│   │   ├── krs.php
-│   │   ├── khs.php
-│   │   └── jadwal.php
-│   ├── dosen/
-│   │   ├── dashboard.php
-│   │   ├── input_nilai.php
-│   │   ├── daftar_mahasiswa.php
-│   │   └── jadwal.php
-│   └── admin/
-│       ├── dashboard.php
-│       ├── mahasiswa/      ← CRUD mahasiswa
-│       ├── dosen/          ← CRUD dosen
-│       ├── matkul/         ← CRUD mata kuliah
-│       ├── semester/       ← CRUD semester
-│       └── jadwal/         ← CRUD jadwal kuliah
-├── includes/
-│   ├── config.php          ← Konfigurasi DB & APP
-│   ├── db.php              ← Koneksi PDO singleton
-│   ├── auth.php            ← Helper autentikasi & session
-│   ├── helpers.php         ← Fungsi utility
-│   ├── header.php          ← Komponen topbar
-│   ├── sidebar.php         ← Komponen sidebar navigasi
-│   └── footer.php          ← Komponen footer
-└── api/
-    ├── krs_save.php        ← AJAX endpoint simpan KRS
-    └── nilai_save.php      ← AJAX endpoint simpan nilai
-```
+## Security Vulnerabilities
 
----
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## Fitur
+## License
 
-### Mahasiswa
-- Dashboard (IPK, SKS, semester aktif, jadwal hari ini, pengumuman)
-- Profil Akademik (history semester, predicate, enrollment status)
-- Pengisian KRS (validasi SKS, cek bentrok jadwal, cek kuota, real-time counter)
-- Kartu Hasil Studi / KHS (nilai per semester, IPS, IPK kumulatif)
-- Jadwal Kuliah Mingguan (grid 5 hari, berwarna per jenis matkul)
-
-### Dosen
-- Dashboard (matkul diampu, total mahasiswa, jadwal hari ini)
-- Jadwal Mengajar (grid mingguan)
-- Daftar Mahasiswa per Kelas
-- Input Nilai (kalkulasi otomatis bobot 20/30/50, AJAX save, lock nilai)
-
-### Admin
-- Dashboard (statistik sistem, semester aktif)
-- CRUD Mahasiswa
-- CRUD Dosen
-- CRUD Mata Kuliah
-- CRUD Semester (hanya 1 aktif sekaligus)
-- CRUD Jadwal Kuliah
-
----
-
-## Formula Penilaian
-
-```
-Nilai Akhir = 0.2 × Tugas + 0.3 × UTS + 0.5 × UAS
-
-Konversi Huruf:
-≥ 85  → A   (bobot 4.0)
-70–84 → B+  (bobot 3.5)
-60–69 → B   (bobot 3.0)
-55–59 → C+  (bobot 2.5)
-50–54 → C   (bobot 2.0)
-40–49 → D   (bobot 1.0)
-< 40  → E   (bobot 0.0)
-
-IPS / IPK = Σ(bobot × SKS) / Σ(SKS)
-```
-
-## Batas SKS Berdasarkan IPK
-
-| IPK Semester Lalu | Maks SKS |
-|-------------------|----------|
-| ≥ 3.50            | 24 SKS   |
-| 3.00 – 3.49       | 22 SKS   |
-| 2.50 – 2.99       | 20 SKS   |
-| 2.00 – 2.49       | 18 SKS   |
-| < 2.00            | 15 SKS   |
-
----
-
-## Tech Stack
-
-- **Backend**: PHP 8.x Native (tanpa framework), PDO prepared statements
-- **Frontend**: HTML5 + CSS3 + Vanilla JavaScript (tanpa framework JS)
-- **Database**: MySQL 8.x / MariaDB 10.x (InnoDB, utf8mb4)
-- **Styling**: Custom CSS — Design System "The Gallery" (Navy `#0B1E4F` + White)
-- **Icons**: Bootstrap Icons via CDN
-- **Font**: Inter (Google Fonts)
-
----
-
-## Keamanan
-
-- Password disimpan dengan `password_hash()` (bcrypt)
-- Seluruh query menggunakan **PDO prepared statements** (anti SQLi)
-- Output dinamis di-escape dengan `htmlspecialchars()` (anti XSS)
-- CSRF token pada setiap form POST
-- Role-based access control via PHP Session
-- Session regenerasi ID setelah login sukses
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
