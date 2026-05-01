@@ -1,66 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIAKAD Gallery — Sistem Informasi KRS Mahasiswa
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Portal akademik terpadu untuk pengisian KRS, input nilai, dan manajemen data akademik berbasis **Laravel**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Backend:** Laravel (PHP 8.1+)
+- **Database:** MySQL / MariaDB
+- **Frontend:** Blade Templating + CSS Custom + Bootstrap Icons
+- **Auth:** Laravel Session-based, multi-guard (Mahasiswa / Dosen / Admin)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Cara Menjalankan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clone & Install Dependencies
+```bash
+git clone <repo-url>
+cd web-krs-mahasiswa
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2. Konfigurasi Environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Edit `.env`, sesuaikan koneksi database:
+```env
+DB_DATABASE=web_krs
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Laravel Sponsors
+### 3. Buat Database & Jalankan Migrasi
+```bash
+php artisan migrate --seed
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. Jalankan Server
+```bash
+php artisan serve
+```
 
-### Premium Partners
+Buka `http://localhost:8000`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## Akun Demo
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Role | Username / NIM / NIDN | Password |
+|------|-----------------------|----------|
+| **Admin** | `admin` | `password123` |
+| **Mahasiswa** | `21010023` | `password123` |
+| **Dosen** | `198504122010` | `password123` |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Daftar Route
 
-## Security Vulnerabilities
+| URL | Nama View | Role | Akses |
+|-----|-----------|------|-------|
+| `/login` | `auth/login` | Semua | Ya |
+| `/mahasiswa/dashboard` | `mahasiswa/dashboard` | Mahasiswa | Ya |
+| `/mahasiswa/profil` | `mahasiswa/profil` | Mahasiswa | Ya |
+| `/mahasiswa/krs` | `mahasiswa/krs` | Mahasiswa | Ya |
+| `/mahasiswa/khs` | `mahasiswa/khs` | Mahasiswa | Ya |
+| `/mahasiswa/jadwal` | `mahasiswa/jadwal` | Mahasiswa | Ya |
+| `/dosen/dashboard` | `dosen/dashboard` | Dosen | Ya |
+| `/dosen/daftar-mahasiswa` | `dosen/daftar_mahasiswa` | Dosen | Ya |
+| `/dosen/input-nilai` | `dosen/input_nilai` | Dosen | Ya |
+| `/dosen/jadwal` | `dosen/jadwal` | Dosen | Ya |
+| `/admin/dashboard` | `admin/dashboard` | Admin | Ya |
+| `/admin/mahasiswa` | `admin/mahasiswa/index` | Admin | Ya |
+| `/admin/dosen` | `admin/dosen/index` | Admin | Ya |
+| `/admin/matkul` | `admin/matkul/index` | Admin | Ya |
+| `/admin/semester` | `admin/semester/index` | Admin | Ya |
+| `/admin/jadwal` | `admin/jadwal/index` | Admin | Ya |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Struktur View
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+resources/views/
+├── layouts/          ← Layout utama (app, header, sidebar, footer)
+├── components/       ← Blade Components (<x-stat-card>, <x-badge>, <x-alert>)
+├── auth/             ← Halaman login
+├── mahasiswa/        ← Dashboard, Profil, KRS, KHS, Jadwal
+├── dosen/            ← Dashboard, Input Nilai, Daftar Mahasiswa, Jadwal
+└── admin/            ← Dashboard + CRUD (Mahasiswa, Dosen, Matkul, Semester, Jadwal)
+```
+
+---
+
+## Blade Components
+
+| Komponen | Penggunaan |
+|----------|-----------|
+| `<x-stat-card>` | Kartu statistik di dashboard |
+| `<x-badge>` | Badge status (aktif, cuti, lulus, wajib, pilihan, nilai huruf) |
+| `<x-alert>` | Flash message (success, error, warning, info) |
