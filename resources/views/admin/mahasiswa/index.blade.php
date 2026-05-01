@@ -35,8 +35,7 @@
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">{{ $m->program_studi }}</td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;text-align:center;">{{ $m->angkatan }}</td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;text-align:center;">
-                    @php $colors = ['aktif'=>'#E8F5E9,#2E7D32','cuti'=>'#FFF4DC,#856404','lulus'=>'#E3F2FD,#1565C0']; [$bg,$color] = explode(',', $colors[$m->status] ?? '#F3F4F6,#6B7489'); @endphp
-                    <span style="background:{{ $bg }};color:{{ $color }};padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700;">{{ ucfirst($m->status) }}</span>
+                    <x-badge :type="$m->status" />
                 </td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;text-align:center;">
                     <a href="{{ route('admin.mahasiswa.edit', $m->nim) }}" style="padding:5px 12px;background:#EEF2FF;color:#1B3679;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;margin-right:4px;"><i class="bi bi-pencil"></i></a>

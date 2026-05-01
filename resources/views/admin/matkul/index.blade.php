@@ -23,7 +23,7 @@
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">{{ $m->sks }}</td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">{{ $m->semester }}</td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">
-                    <span style="background:{{ $m->jenis==='wajib'?'#E3F2FD':'#F3E5F5' }};color:{{ $m->jenis==='wajib'?'#1976D2':'#7B1FA2' }};padding:2px 10px;border-radius:4px;font-size:12px;font-weight:700;">{{ ucfirst($m->jenis) }}</span>
+                    <x-badge :type="$m->jenis" />
                 </td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;text-align:center;">
                     <a href="{{ route('admin.matkul.edit', $m->id_matkul) }}" style="padding:5px 12px;background:#EEF2FF;color:#1B3679;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;margin-right:4px;"><i class="bi bi-pencil"></i></a>

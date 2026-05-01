@@ -7,12 +7,8 @@
     <a href="{{ route('admin.semester.create') }}" style="padding:10px 20px;background:#0B1E4F;color:white;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;"><i class="bi bi-plus-circle"></i> Tambah Semester</a>
 </div>
 
-@if(session('success'))
-<div style="background:#D1FAE5;color:#065F46;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:14px;">{{ session('success') }}</div>
-@endif
-@if(session('error'))
-<div style="background:#FEE2E2;color:#991B1B;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:14px;">{{ session('error') }}</div>
-@endif
+<x-alert type="success" :message="session('success')" />
+<x-alert type="error" :message="session('error')" />
 
 <div style="background:white;border-radius:16px;box-shadow:0 2px 10px rgba(11,30,79,.06);overflow:hidden;">
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
@@ -29,11 +25,7 @@
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;"><strong>{{ $s->tahun_ajaran }}</strong></td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">{{ ucfirst($s->tingkatan_semester) }}</td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;">
-                    @if($s->status === 'aktif')
-                    <span style="background:#D1FAE5;color:#065F46;padding:2px 10px;border-radius:4px;font-size:12px;font-weight:700;">Aktif</span>
-                    @else
-                    <span style="background:#F3F4F6;color:#6B7280;padding:2px 10px;border-radius:4px;font-size:12px;font-weight:700;">Non-aktif</span>
-                    @endif
+                    <x-badge :type="$s->status" />
                 </td>
                 <td style="padding:12px 16px;border-bottom:1px solid #E4E7EE;text-align:center;">
                     <a href="{{ route('admin.semester.edit', $s->id_semester) }}" style="padding:5px 12px;background:#EEF2FF;color:#1B3679;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;margin-right:4px;"><i class="bi bi-pencil"></i></a>
