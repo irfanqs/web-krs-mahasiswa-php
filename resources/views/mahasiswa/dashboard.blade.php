@@ -16,8 +16,8 @@
 .card-sub { font-size:13px; color:#6B7489; margin-top:4px; }
 .card-navy .card-sub { color:rgba(255,255,255,.6); }
 .hero-card { background:linear-gradient(135deg,#0B1E4F 0%,#1C3578 100%); color:white; border-radius:16px; padding:28px 32px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
-.hero-info h2 { font-size:22px; font-weight:700; margin:0 0 4px 0; }
-.hero-info p { font-size:14px; opacity:.8; margin:0 0 20px 0; }
+.hero-info h2 { font-size:22px; font-weight:700; margin:0 0 4px 0; color:white; }
+.hero-info p { font-size:14px; opacity:.8; margin:0 0 20px 0; color:white; }
 .hero-stats { display:flex; gap:32px; }
 .hero-stat-label { font-size:10px; font-weight:700; opacity:.7; text-transform:uppercase; letter-spacing:1px; }
 .hero-stat-value { font-size:24px; font-weight:700; }

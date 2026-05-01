@@ -111,6 +111,18 @@ h3 {
   margin-bottom: var(--spacing-md);
 }
 
+/* Heading di dalam card navy harus putih */
+.card-navy h1,
+.card-navy h2,
+.card-navy h3,
+.card-navy p,
+.hero-card h1,
+.hero-card h2,
+.hero-card h3,
+.hero-card p {
+  color: white;
+}
+
 p {
   margin-bottom: var(--spacing-md);
   color: var(--text-700);
