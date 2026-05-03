@@ -1,5 +1,5 @@
 @php
-    $currentPage = $currentPage ?? '';
+    $currentRoute = Route::currentRouteName();
     if (auth('mahasiswa')->check()) {
         $role = 'mahasiswa';
         $menuItems = [
@@ -79,7 +79,7 @@
                     <div class="sidebar-section-title" style="margin-top:16px;">{{ $item['section'] }}</div>
                     @foreach($item['items'] as $sub)
                         <li>
-                            <a href="{{ route($sub['route']) }}" class="{{ $currentPage === $sub['page'] ? 'active' : '' }}">
+                            <a href="{{ route($sub['route']) }}" class="{{ $currentRoute === $sub['route'] ? 'active' : '' }}">
                                 <i class="bi {{ $sub['icon'] }}"></i>
                                 <span>{{ $sub['label'] }}</span>
                             </a>
@@ -87,7 +87,7 @@
                     @endforeach
                 @else
                     <li>
-                        <a href="{{ route($item['route']) }}" class="{{ $currentPage === $item['page'] ? 'active' : '' }}">
+                        <a href="{{ route($item['route']) }}" class="{{ $currentRoute === $item['route'] ? 'active' : '' }}">
                             <i class="bi {{ $item['icon'] }}"></i>
                             <span>{{ $item['label'] }}</span>
                         </a>
