@@ -8,22 +8,7 @@
         margin: 0 auto;
     }
 
-    /* Header & Breadcrumb */
-    .breadcrumb {
-        font-size: 11px;
-        font-weight: 800;
-        color: #9CA3AF;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .breadcrumb span {
-        color: #1B3679;
-    }
-    
+    /* Header */
     .header-section {
         display: flex;
         justify-content: space-between;
@@ -325,8 +310,6 @@
 @endphp
 
 <div class="khs-container">
-    <div class="breadcrumb">AKADEMIK <i class="bi bi-chevron-right" style="font-size:10px;"></i> <span>KHS</span></div>
-    
     <div class="header-section">
         <div>
             <h1 class="page-title">Kartu Hasil Studi - Semester {{ $semName }}</h1>

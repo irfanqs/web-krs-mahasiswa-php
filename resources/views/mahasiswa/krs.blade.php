@@ -1,249 +1,492 @@
 @extends('layouts.app')
-@section('title', 'Pengisian KRS')
+@section('title', 'Course Enrollment')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 <style>
-.page-title { font-size:28px; font-weight:700; color:var(--text-900,#0B1E4F); margin-bottom:4px; }
-.page-subtitle { color:var(--text-500,#6B7489); font-size:14px; }
-.alert-validation { padding:16px; border-radius:12px; margin-bottom:24px; background:#FFF4DC; border-left:4px solid #F4B43C; color:#856404; font-size:14px; }
-.alert-locked { background:#E8F5E9; border-left:4px solid #4CAF50; color:#2E7D32; }
-.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
-.card { background:white; border-radius:16px; padding:20px 24px; box-shadow:0 2px 10px rgba(11,30,79,.06); }
-.card-navy { background:linear-gradient(135deg,#0B1E4F 0%,#1C3578 100%); color:white; }
-.card-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#6B7489; margin-bottom:8px; }
-.card-navy .card-title { color:rgba(255,255,255,.7); }
-.card-value { font-size:28px; font-weight:700; color:#0B1E4F; }
-.card-navy .card-value { color:white; }
-.distribution-bar { display:flex; gap:2px; height:8px; border-radius:4px; overflow:hidden; margin-bottom:8px; }
-.table-wrapper { background:white; border-radius:16px; box-shadow:0 2px 10px rgba(11,30,79,.06); overflow:hidden; margin-bottom:80px; }
-.table { width:100%; border-collapse:collapse; font-size:14px; }
-.table thead { background:#F5F6FA; }
-.table th { padding:12px 16px; text-align:left; font-weight:600; color:#0B1E4F; border-bottom:2px solid #E4E7EE; }
-.table td { padding:12px 16px; border-bottom:1px solid #E4E7EE; }
-.table tr:hover { background:#F5F6FA; }
-.table-checkbox { width:18px; height:18px; accent-color:#0B1E4F; cursor:pointer; }
-.course-row.selected { border-left:4px solid #0B1E4F; background:rgba(42,74,158,.02); }
-.course-name { font-weight:600; color:#0B1E4F; }
-.badge-wajib { background:#E3F2FD; color:#1976D2; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; margin-left:6px; }
-.badge-pilihan { background:#F3E5F5; color:#7B1FA2; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; margin-left:6px; }
-.schedule-info { font-size:12px; color:#6B7489; display:flex; gap:12px; flex-wrap:wrap; }
-.schedule-item { display:flex; align-items:center; gap:4px; }
-.sticky-footer { position:sticky; bottom:0; left:0; width:100%; background:white; border-top:1px solid #E4E7EE; padding:16px 48px; box-shadow:0 -2px 10px rgba(11,30,79,.06); display:flex; justify-content:space-between; align-items:center; gap:24px; z-index:50; }
-.footer-progress { display:flex; align-items:center; gap:16px; flex:1; flex-wrap:wrap; }
-.progress-text { font-size:13px; color:#2C3A59; font-weight:600; }
-.footer-actions { display:flex; gap:12px; }
-.btn { padding:10px 16px; border:none; border-radius:10px; font-weight:600; cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:8px; font-size:14px; }
-.btn-secondary { background:#E4E7EE; color:#0B1E4F; }
-.btn-secondary:hover { background:#D0D3DC; }
-.btn-primary { background:#0B1E4F; color:white; }
-.btn-primary:hover { background:#1C3578; transform:translateY(-2px); }
-.btn-primary:disabled { background:#ccc; cursor:not-allowed; transform:none; }
-.text-danger { color:#E04F5F; }
-@media(max-width:1280px){.grid-4{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){.sticky-footer{flex-direction:column;align-items:stretch;padding:16px 24px;}.grid-4{grid-template-columns:1fr;}}
-@media print{.sidebar,.topbar,.sticky-footer,.alert-validation,.btn{display:none!important;}.page-layout{margin-left:0!important;}.page-content{padding:0!important;}}
+    .krs-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-bottom: 100px; /* space for sticky footer */
+    }
+
+    /* Header & Top Stats */
+    .header-area {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+    .header-text { max-width: 600px; }
+    .page-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: #1B3679;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.5px;
+    }
+    .page-subtitle {
+        font-size: 15px;
+        color: #6B7280;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .top-stats {
+        display: flex;
+        gap: 16px;
+    }
+    .ts-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        min-width: 130px;
+    }
+    .ts-title {
+        font-size: 10px;
+        font-weight: 800;
+        color: #9CA3AF;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    .ts-value {
+        font-size: 32px;
+        font-weight: 800;
+        color: #1B3679;
+        line-height: 1;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+    }
+    .ts-value span { font-size: 13px; font-weight: 600; color: #9CA3AF; }
+
+    /* Layout: Sidebar + Main */
+    .main-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 32px;
+    }
+
+    /* Sidebar */
+    .sidebar-card {
+        background: linear-gradient(135deg, #1B3679 0%, #11235A 100%);
+        border-radius: 20px;
+        padding: 32px 24px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(27,54,121,0.15);
+    }
+    .sc-title {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 16px;
+    }
+    .sc-phase {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 24px;
+    }
+    .sc-progress {
+        height: 6px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 99px;
+        margin-bottom: 12px;
+        overflow: hidden;
+    }
+    .sc-bar {
+        width: 60%;
+        height: 100%;
+        background: white;
+        border-radius: 99px;
+    }
+    .sc-footer {
+        font-size: 12px;
+        color: rgba(255,255,255,0.7);
+    }
+
+    /* Main Grid */
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        color: #6B7280;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .toolbar-icons { display: flex; gap: 8px; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #1B3679; color: white; cursor: pointer; }
+    .icon-btn.inactive { background: white; color: #9CA3AF; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 24px;
+    }
+
+    /* Course Card */
+    .course-card {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        border-left: 4px solid transparent;
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+    }
+    .course-card.is-selected {
+        border-left-color: #1B3679;
+    }
+
+    .cc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    .cc-code {
+        font-size: 11px;
+        font-weight: 800;
+        color: #9CA3AF;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .selected-pill { display: none; }
+    .is-selected .selected-pill {
+        display: inline-block;
+        background: #EEF2FF;
+        color: #1B3679;
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .cc-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1B3679;
+        margin: 0 0 16px 0;
+        line-height: 1.3;
+    }
+
+    .cc-meta {
+        display: flex;
+        gap: 24px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #4B5563;
+        margin-bottom: 16px;
+    }
+    .cc-meta i { color: #9CA3AF; margin-right: 4px; font-size: 15px; }
+
+    .cc-time {
+        font-size: 13px;
+        color: #6B7280;
+        font-weight: 500;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .cc-time i { color: #9CA3AF; font-size: 15px; }
+
+    .cc-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #F3F4F6;
+    }
+    .cc-lecturer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .cc-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #F3F4F6;
+        color: #4B5563;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        overflow: hidden;
+    }
+    .cc-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .cc-lecturer span {
+        font-size: 12px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    /* Card Action Buttons */
+    .btn-action {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+    }
+    .btn-drop { display: none; color: #DC2626; }
+    .btn-drop:hover { color: #B91C1C; }
+    .btn-select {
+        display: inline-flex;
+        background: #1B3679;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 99px;
+    }
+    .btn-select:hover { background: #11235A; transform: translateY(-1px); }
+    .btn-full { color: #9CA3AF; background: #F3F4F6; padding: 8px 16px; border-radius: 99px; cursor: not-allowed; }
+
+    .is-selected .btn-drop { display: inline-flex; }
+    .is-selected .btn-select { display: none; }
+
+    /* Sticky Bottom Footer */
+    .sticky-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px 48px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: flex-end;
+        z-index: 100;
+        border-top: 1px solid #F3F4F6;
+    }
+    .btn-submit {
+        background: #1B3679;
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(27,54,121,0.2);
+        transition: all 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background: #0B1E4F; transform: translateY(-2px); }
+    .btn-submit:disabled { background: #9CA3AF; cursor: not-allowed; box-shadow: none; }
+
+    @media(max-width: 1024px) {
+        .main-layout { grid-template-columns: 1fr; }
+        .sidebar-card { display: flex; align-items: center; justify-content: space-between; padding: 24px; }
+        .sc-progress, .sc-footer { display: none; }
+        .sc-phase { margin-bottom: 0; }
+        .header-area { flex-direction: column; }
+        .top-stats { width: 100%; justify-content: space-between; }
+        .sticky-footer { padding: 16px 24px; }
+    }
 </style>
 @endpush
 
 @section('content')
 @php $currentPage = 'krs'; @endphp
 
-<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
-    <div>
-        <h1 class="page-title">Pengisian KRS</h1>
-        <p class="page-subtitle">
-            Semester {{ $semesterAktif ? ucfirst($semesterAktif->tingkatan_semester).' '.$semesterAktif->tahun_ajaran : '-' }}
-        </p>
-    </div>
-    @if($isKrsLocked)
-    <div style="display:flex;gap:12px;">
-        <a href="{{ route('mahasiswa.krs') }}?edit=1" class="btn btn-secondary"><i class="bi bi-pencil"></i> Revisi KRS</a>
-        <button class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer"></i> Cetak KRS</button>
-    </div>
-    @endif
-</div>
-
-<div class="alert-validation {{ $isKrsLocked ? 'alert-locked' : '' }}">
-    @if($isKrsLocked)
-        <i class="bi bi-check-circle-fill" style="margin-right:8px;"></i>
-        <strong>KRS Disetujui:</strong> Anda telah mengambil <strong>{{ $currentSks }} SKS</strong> pada semester ini.
-    @else
-        <i class="bi bi-info-circle" style="margin-right:8px;"></i>
-        <strong>Sistem Validasi:</strong> Batas maksimal SKS berdasarkan IPK semester lalu: <strong>{{ $maxSks }} SKS</strong>.
-    @endif
-</div>
-
-<div class="grid-4">
-    <div class="card card-navy">
-        <div class="card-title">SKS Dipilih</div>
-        <div class="card-value"><span id="sks-counter">{{ $currentSks }}</span> <span style="font-size:16px;font-weight:normal;opacity:.7;">/ {{ $maxSks }}</span></div>
-        <div style="font-size:13px;opacity:.6;margin-top:4px;">Selection progress</div>
-    </div>
-    <div class="card card-navy">
-        <div class="card-title">Total Kursus Dipilih</div>
-        <div class="card-value" id="course-counter">{{ count(array_filter((array)$selectedJadwal)) }}</div>
-        <div style="font-size:13px;opacity:.6;margin-top:4px;">Selected courses</div>
-    </div>
-    <div class="card">
-        <div class="card-title">Wajib vs Pilihan</div>
-        <div class="distribution-bar">
-            <div style="background:#0B1E4F;width:{{ $currentSks > 0 ? ($mandatorySks/$currentSks)*100 : 0 }}%;height:100%;border-radius:4px;"></div>
-            <div style="background:#F4B43C;width:{{ $currentSks > 0 ? ($electiveSks/$currentSks)*100 : 0 }}%;height:100%;border-radius:4px;"></div>
+<div class="krs-container">
+    <div class="header-area">
+        <div class="header-text">
+            <h1 class="page-title">Course Enrollment</h1>
+            <p class="page-subtitle">Curate your academic journey for the upcoming Odd Semester. Please ensure your credit balance remains within the permitted limit.</p>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:13px;color:#6B7489;">
-            <span>Wajib: {{ $mandatorySks }} SKS</span>
-            <span>Pilihan: {{ $electiveSks }} SKS</span>
+        
+        <div class="top-stats">
+            <div class="ts-card">
+                <div class="ts-title">MAX CREDITS</div>
+                <div class="ts-value">{{ $maxSks }} <span>SKS</span></div>
+            </div>
+            <div class="ts-card">
+                <div class="ts-title">SELECTED</div>
+                <div class="ts-value"><span id="selected-sks-counter" style="color:#1B3679;font-size:32px;font-weight:800;margin:0;">{{ $currentSks }}</span> <span style="margin-left:6px;">SKS</span></div>
+            </div>
+            <div class="ts-card">
+                <div class="ts-title">BALANCE</div>
+                <div class="ts-value"><span id="balance-sks-counter" style="color:#1B3679;font-size:32px;font-weight:800;margin:0;">{{ $maxSks - $currentSks }}</span> <span style="margin-left:6px;">SKS</span></div>
+            </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-title">Kursus Tersedia</div>
-        <div class="card-value">{{ $availableCourses->count() }}</div>
-        <div style="font-size:13px;color:#6B7489;margin-top:4px;">Total courses offered</div>
+
+    @if($isKrsLocked)
+    <div style="background:#ECFDF5; border:1px solid #A7F3D0; padding:16px 24px; border-radius:12px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="color:#065F46; font-weight:600;"><i class="bi bi-check-circle-fill" style="margin-right:8px;"></i> KRS Anda telah disetujui secara permanen.</div>
+        <div style="display:flex; gap:12px;">
+            <a href="{{ route('mahasiswa.krs') }}?edit=1" style="color:#059669; font-weight:700; text-decoration:none; font-size:14px;"><i class="bi bi-pencil"></i> Revisi KRS</a>
+            <a href="#" onclick="window.print()" style="color:#059669; font-weight:700; text-decoration:none; font-size:14px;"><i class="bi bi-printer"></i> Cetak PDF</a>
+        </div>
     </div>
-</div>
+    @endif
 
-<div class="table-wrapper">
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width:40px;"></th>
-                <th>No</th>
-                <th>Kode</th>
-                <th>Mata Kuliah</th>
-                <th style="text-align:center;">SKS</th>
-                <th>Jadwal & Dosen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $no = 1; $hasSelected = false; @endphp
-            @foreach($availableCourses as $course)
-                @php $isSelected = isset($selectedJadwal[$course->id_jadwal]); @endphp
-                @if($isSelected)
-                    @php $hasSelected = true; $isFull = $course->sks_terdaftar >= $course->kuota; @endphp
-                    <tr class="course-row selected" data-jadwal-id="{{ $course->id_jadwal }}" data-sks="{{ $course->sks }}" data-jenis="{{ $course->jenis }}">
-                        <td style="text-align:center;">
-                            @if($isKrsLocked)
-                                <i class="bi bi-check-circle-fill" style="color:#10B981;font-size:18px;"></i>
-                            @else
-                                <input type="checkbox" class="table-checkbox course-checkbox" value="{{ $course->id_jadwal }}" checked>
-                            @endif
-                        </td>
-                        <td>{{ $no++ }}</td>
-                        <td><strong>{{ $course->kode_matkul }}</strong></td>
-                        <td>
-                            <div class="course-name">
-                                {{ $course->nama_matkul }}
-                                <span class="badge-{{ $course->jenis }}">{{ ucfirst($course->jenis) }}</span>
-                            </div>
-                        </td>
-                        <td style="text-align:center;"><strong>{{ $course->sks }}</strong></td>
-                        <td>
-                            <div class="schedule-info">
-                                <div class="schedule-item"><i class="bi bi-calendar3"></i> {{ $course->hari }} {{ substr($course->jam_mulai,0,5) }}-{{ substr($course->jam_selesai,0,5) }}</div>
-                                <div class="schedule-item"><i class="bi bi-geo-alt"></i> {{ $course->ruang }}</div>
-                                <div class="schedule-item"><i class="bi bi-person"></i> {{ $course->nama_dosen }}</div>
-                            </div>
-                        </td>
-                    </tr>
-                @endif
-            @endforeach
+    <div class="main-layout">
+        <div class="sidebar-col">
+            <div class="sidebar-card">
+                <div class="sc-title">ENROLLMENT STATUS</div>
+                <div class="sc-phase">Phase 1: Open</div>
+                <div class="sc-progress"><div class="sc-bar"></div></div>
+                <div class="sc-footer">Ends in 2 days (Oct 15, 2023)</div>
+            </div>
+            <!-- Extra sidebar elements omitted to match backend logic functionality -->
+        </div>
 
-            @if(!$isKrsLocked && $hasSelected)
-                <tr style="background:#F3F4F6;">
-                    <td colspan="6" style="padding:16px 24px;font-weight:700;color:#0B1E4F;font-size:12px;letter-spacing:1px;text-transform:uppercase;">
-                        MATA KULIAH TERSEDIA (BELUM DIAMBIL)
-                    </td>
-                </tr>
-            @endif
+        <div class="main-col">
+            <div class="toolbar">
+                <div class="toolbar-text">Showing <strong>{{ count($availableCourses) }}</strong> courses available</div>
+                <div class="toolbar-icons">
+                    <div class="icon-btn"><i class="bi bi-grid-fill"></i></div>
+                    <div class="icon-btn inactive"><i class="bi bi-list-ul"></i></div>
+                </div>
+            </div>
 
-            @if(!$isKrsLocked)
+            <div class="courses-grid">
                 @foreach($availableCourses as $course)
-                    @php $isSelected = isset($selectedJadwal[$course->id_jadwal]); @endphp
-                    @if(!$isSelected)
-                        @php $isFull = $course->sks_terdaftar >= $course->kuota; @endphp
-                        <tr class="course-row" data-jadwal-id="{{ $course->id_jadwal }}" data-sks="{{ $course->sks }}" data-jenis="{{ $course->jenis }}">
-                            <td>
-                                <input type="checkbox" class="table-checkbox course-checkbox" value="{{ $course->id_jadwal }}" {{ $isFull ? 'disabled' : '' }}>
-                            </td>
-                            <td>{{ $no++ }}</td>
-                            <td><strong>{{ $course->kode_matkul }}</strong></td>
-                            <td>
-                                <div class="course-name">
-                                    {{ $course->nama_matkul }}
-                                    <span class="badge-{{ $course->jenis }}">{{ ucfirst($course->jenis) }}</span>
-                                </div>
-                            </td>
-                            <td style="text-align:center;"><strong>{{ $course->sks }}</strong></td>
-                            <td>
-                                <div class="schedule-info">
-                                    <div class="schedule-item"><i class="bi bi-calendar3"></i> {{ $course->hari }} {{ substr($course->jam_mulai,0,5) }}-{{ substr($course->jam_selesai,0,5) }}</div>
-                                    <div class="schedule-item"><i class="bi bi-geo-alt"></i> {{ $course->ruang }}</div>
-                                    <div class="schedule-item"><i class="bi bi-person"></i> {{ $course->nama_dosen }}</div>
-                                    @if($isFull)<div class="schedule-item text-danger"><i class="bi bi-exclamation-triangle"></i> Penuh</div>@endif
-                                </div>
-                            </td>
-                        </tr>
-                    @endif
+                    @php 
+                        $isSelected = isset($selectedJadwal[$course->id_jadwal]); 
+                        $isFull = $course->sks_terdaftar >= $course->kuota;
+                        
+                        // Generates Avatar Initials
+                        $initials = strtoupper(substr($course->nama_dosen, 0, 1));
+                        $parts = explode(' ', $course->nama_dosen);
+                        if(count($parts) > 1 && strlen($parts[1]) > 0) {
+                            $second = substr($parts[1], 0, 1);
+                            if(ctype_alpha($second)) $initials .= strtoupper($second);
+                        }
+                    @endphp
+                    <div class="course-card {{ $isSelected ? 'is-selected' : '' }}" data-sks="{{ $course->sks }}">
+                        <!-- Hidden checkbox for logic tracking -->
+                        <input type="checkbox" class="course-checkbox" style="display:none;" value="{{ $course->id_jadwal }}" {{ $isSelected ? 'checked' : '' }}>
+                        
+                        <div class="cc-header">
+                            <span class="cc-code">{{ $course->kode_matkul }}</span>
+                            <span class="cc-pill selected-pill">SELECTED</span>
+                        </div>
+                        
+                        <h3 class="cc-title">{{ $course->nama_matkul }}</h3>
+                        
+                        <div class="cc-meta">
+                            <span><i class="bi bi-journal-text"></i> {{ $course->sks }} Credits</span>
+                            <span><i class="bi bi-people"></i> {{ $course->sks_terdaftar }}/{{ $course->kuota }} Slots</span>
+                        </div>
+                        
+                        <div class="cc-time">
+                            <i class="bi bi-clock"></i> {{ substr($course->hari, 0, 3) }}, {{ substr($course->jam_mulai,0,5) }} - {{ substr($course->jam_selesai,0,5) }} &bull; {{ $course->ruang }}
+                        </div>
+                        
+                        <div class="cc-footer">
+                            <div class="cc-lecturer">
+                                <div class="cc-avatar">{{ $initials }}</div>
+                                <span>{{ $course->nama_dosen }}</span>
+                            </div>
+                            
+                            @if($isKrsLocked)
+                                @if($isSelected)
+                                    <span style="color:#059669; font-weight:700; font-size:13px;"><i class="bi bi-check-circle"></i> Enrolled</span>
+                                @endif
+                            @else
+                                @if($isFull && !$isSelected)
+                                    <button type="button" class="btn-action btn-full" disabled><i class="bi bi-slash-circle"></i> Class Full</button>
+                                @else
+                                    <!-- Both buttons rendered, toggled via CSS based on parent .is-selected -->
+                                    <button type="button" class="btn-action btn-drop" onclick="toggleCourse(this)">
+                                        <i class="bi bi-dash-circle"></i> Drop Course
+                                    </button>
+                                    <button type="button" class="btn-action btn-select" onclick="toggleCourse(this)">
+                                        <i class="bi bi-plus-circle"></i> Select Course
+                                    </button>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                 @endforeach
-            @endif
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+@if(!$isKrsLocked)
+<div class="sticky-footer">
+    <button class="btn-submit" id="btn-save"><i class="bi bi-cloud-arrow-up"></i> Submit Enrollment</button>
+</div>
+@endif
+
 @endsection
 
 @push('scripts')
 @if(!$isKrsLocked)
-<div class="sticky-footer">
-    <div class="footer-progress">
-        <span class="progress-text">IPK: <strong>{{ number_format($ipk, 2) }}</strong></span>
-        <span class="progress-text">BATAS: <strong>{{ $maxSks }}</strong> SKS</span>
-    </div>
-    <div class="footer-actions">
-        <button class="btn btn-secondary" id="btn-reset"><i class="bi bi-arrow-clockwise"></i> Reset Selection</button>
-        <button class="btn btn-primary" id="btn-save"><i class="bi bi-check-circle"></i> Simpan KRS</button>
-    </div>
-</div>
 <script>
 const maxSKS = {{ $maxSks }};
 const saveUrl = '{{ route('mahasiswa.krs.save') }}';
 const csrfToken = '{{ csrf_token() }}';
-const courseCheckboxes = document.querySelectorAll('.course-checkbox');
 
-function updateCounters() {
-    let totalSKS = 0, totalCourses = 0;
-    courseCheckboxes.forEach(cb => {
-        if (cb.checked) {
-            totalSKS += parseInt(cb.closest('.course-row').dataset.sks);
-            totalCourses++;
-        }
+function toggleCourse(btn) {
+    const card = btn.closest('.course-card');
+    const cb = card.querySelector('.course-checkbox');
+    const sks = parseInt(card.dataset.sks);
+    
+    // Calculate current total
+    let currentTotal = 0;
+    document.querySelectorAll('.course-checkbox:checked').forEach(c => {
+        currentTotal += parseInt(c.closest('.course-card').dataset.sks);
     });
-    document.getElementById('sks-counter').textContent = totalSKS;
-    document.getElementById('course-counter').textContent = totalCourses;
-    courseCheckboxes.forEach(cb => {
-        if (!cb.checked) {
-            const sks = parseInt(cb.closest('.course-row').dataset.sks);
-            const isFull = cb.closest('.course-row').querySelector('.text-danger') !== null;
-            cb.disabled = isFull || (totalSKS + sks > maxSKS);
+    
+    if (!cb.checked) {
+        // Trying to select
+        if (currentTotal + sks > maxSKS) {
+            alert('Cannot select course. Credit limit exceeded!');
+            return;
         }
-        cb.closest('.course-row').classList.toggle('selected', cb.checked);
-    });
+        cb.checked = true;
+        card.classList.add('is-selected');
+    } else {
+        // Trying to drop
+        cb.checked = false;
+        card.classList.remove('is-selected');
+    }
+    
+    updateStats();
 }
 
-courseCheckboxes.forEach(cb => cb.addEventListener('change', updateCounters));
-
-document.getElementById('btn-reset').addEventListener('click', function() {
-    if (confirm('Apakah Anda yakin ingin mereset seluruh pilihan?')) {
-        courseCheckboxes.forEach(cb => { cb.checked = false; });
-        updateCounters();
-    }
-});
+function updateStats() {
+    let currentTotal = 0;
+    document.querySelectorAll('.course-checkbox:checked').forEach(c => {
+        currentTotal += parseInt(c.closest('.course-card').dataset.sks);
+    });
+    
+    document.getElementById('selected-sks-counter').textContent = currentTotal;
+    document.getElementById('balance-sks-counter').textContent = maxSKS - currentTotal;
+}
 
 document.getElementById('btn-save').addEventListener('click', function() {
-    const selectedJadwal = Array.from(courseCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
-    if (selectedJadwal.length === 0) { alert('Silakan pilih minimal satu mata kuliah'); return; }
+    const selectedJadwal = Array.from(document.querySelectorAll('.course-checkbox:checked')).map(cb => cb.value);
+    
+    if (selectedJadwal.length === 0) { 
+        alert('Please select at least one course.'); 
+        return; 
+    }
+    
     this.disabled = true;
-    this.innerHTML = '<i class="bi bi-hourglass-split"></i> Menyimpan...';
+    this.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
+    
     fetch(saveUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
@@ -251,13 +494,24 @@ document.getElementById('btn-save').addEventListener('click', function() {
     })
     .then(r => r.json())
     .then(data => {
-        if (data.ok) { alert('KRS berhasil disimpan!'); location.reload(); }
-        else { alert('Gagal: ' + (data.errors ? data.errors.join(', ') : 'Unknown error')); this.disabled = false; this.innerHTML = '<i class="bi bi-check-circle"></i> Simpan KRS'; }
+        if (data.ok) { 
+            alert('Enrollment submitted successfully!'); 
+            location.reload(); 
+        } else { 
+            alert('Failed: ' + (data.errors ? data.errors.join(', ') : 'Unknown error')); 
+            this.disabled = false; 
+            this.innerHTML = '<i class="bi bi-cloud-arrow-up"></i> Submit Enrollment'; 
+        }
     })
-    .catch(err => { alert('Error: ' + err.message); this.disabled = false; this.innerHTML = '<i class="bi bi-check-circle"></i> Simpan KRS'; });
+    .catch(err => { 
+        alert('Error: ' + err.message); 
+        this.disabled = false; 
+        this.innerHTML = '<i class="bi bi-cloud-arrow-up"></i> Submit Enrollment'; 
+    });
 });
 
-updateCounters();
+// Initialize
+updateStats();
 </script>
 @endif
 @endpush
