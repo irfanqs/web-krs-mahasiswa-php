@@ -10,5 +10,5 @@
   }
 </style>
 <footer class="page-footer">
-    SIAKAD GALLERY &copy; {{ date('Y') }} &bull; ACADEMIC EXCELLENCE &bull; THE GALLERY ACADEMIC PORTAL
+    SIAKAD GALLERY &copy; {{ date('Y') }} &bull; KEUNGGULAN AKADEMIK &bull; PORTAL AKADEMIK THE GALLERY
 </footer>

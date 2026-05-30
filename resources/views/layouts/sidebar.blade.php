@@ -4,18 +4,18 @@
         $role = 'mahasiswa';
         $menuItems = [
             ['icon'=>'bi-grid-1x2','label'=>'Dashboard','route'=>'mahasiswa.dashboard','page'=>'dashboard'],
-            ['icon'=>'bi-person','label'=>'Academic Profile','route'=>'mahasiswa.profil','page'=>'profil'],
-            ['icon'=>'bi-calendar-check','label'=>'Course Enrollment','route'=>'mahasiswa.krs','page'=>'krs'],
-            ['icon'=>'bi-star','label'=>'Study Results','route'=>'mahasiswa.khs','page'=>'khs'],
-            ['icon'=>'bi-calendar3','label'=>'Schedule','route'=>'mahasiswa.jadwal','page'=>'jadwal'],
+            ['icon'=>'bi-person','label'=>'Profil Akademik','route'=>'mahasiswa.profil','page'=>'profil'],
+            ['icon'=>'bi-calendar-check','label'=>'Pengisian KRS','route'=>'mahasiswa.krs','page'=>'krs'],
+            ['icon'=>'bi-star','label'=>'Hasil Studi','route'=>'mahasiswa.khs','page'=>'khs'],
+            ['icon'=>'bi-calendar3','label'=>'Jadwal','route'=>'mahasiswa.jadwal','page'=>'jadwal'],
         ];
     } elseif (auth('dosen')->check()) {
         $role = 'dosen';
         $menuItems = [
             ['icon'=>'bi-grid-1x2','label'=>'Dashboard','route'=>'dosen.dashboard','page'=>'dashboard'],
-            ['icon'=>'bi-people','label'=>'Student List','route'=>'dosen.daftar_mahasiswa','page'=>'daftar_mahasiswa'],
-            ['icon'=>'bi-pencil','label'=>'Input Grades','route'=>'dosen.input_nilai','page'=>'input_nilai'],
-            ['icon'=>'bi-calendar3','label'=>'Schedule','route'=>'dosen.jadwal','page'=>'jadwal'],
+            ['icon'=>'bi-people','label'=>'Daftar Mahasiswa','route'=>'dosen.daftar_mahasiswa','page'=>'daftar_mahasiswa'],
+            ['icon'=>'bi-pencil','label'=>'Input Nilai','route'=>'dosen.input_nilai','page'=>'input_nilai'],
+            ['icon'=>'bi-calendar3','label'=>'Jadwal','route'=>'dosen.jadwal','page'=>'jadwal'],
         ];
     } else {
         $role = 'admin';
@@ -68,11 +68,11 @@
         <div class="sidebar-logo-icon"><i class="bi bi-bank"></i></div>
         <div class="sidebar-logo-text">
             <div class="sidebar-logo-title">The Gallery</div>
-            <div class="sidebar-logo-subtitle">ACADEMIC PORTAL</div>
+            <div class="sidebar-logo-subtitle">PORTAL AKADEMIK</div>
         </div>
     </div>
     <div class="sidebar-content">
-        <div class="sidebar-section-title">MAIN MENU</div>
+        <div class="sidebar-section-title">MENU UTAMA</div>
         <ul class="sidebar-menu">
             @foreach($menuItems as $item)
                 @if(isset($item['section']))
@@ -98,16 +98,16 @@
     </div>
     <div class="sidebar-footer">
         <div class="sidebar-secondary-links">
-            <a href="#"><i class="bi bi-question-circle"></i> Help Center</a>
+            <a href="#"><i class="bi bi-question-circle"></i> Pusat Bantuan</a>
             <a href="{{ $logoutRoute }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                class="logout">
-                <i class="bi bi-box-arrow-right"></i> Logout
+                <i class="bi bi-box-arrow-right"></i> Keluar
             </a>
             <form id="logout-form" action="{{ $logoutRoute }}" method="POST" style="display:none;">
                 @csrf
             </form>
         </div>
-        <button class="sidebar-action-btn">DIGITAL ID</button>
+        <button class="sidebar-action-btn">ID DIGITAL</button>
     </div>
 </aside>

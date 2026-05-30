@@ -55,19 +55,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('semester')->insert([
-            ['tahun_ajaran' => '2022/2023', 'tingkatan_semester' => 'ganjil', 'status' => 'nonaktif'],
-            ['tahun_ajaran' => '2022/2023', 'tingkatan_semester' => 'genap',  'status' => 'nonaktif'],
-            ['tahun_ajaran' => '2023/2024', 'tingkatan_semester' => 'ganjil', 'status' => 'nonaktif'],
-            ['tahun_ajaran' => '2023/2024', 'tingkatan_semester' => 'genap',  'status' => 'aktif'],
+            ['tahun_ajaran' => '2024/2025', 'tingkatan_semester' => 'ganjil', 'status' => 'nonaktif'],
+            ['tahun_ajaran' => '2024/2025', 'tingkatan_semester' => 'genap',  'status' => 'nonaktif'],
+            ['tahun_ajaran' => '2025/2026', 'tingkatan_semester' => 'ganjil', 'status' => 'nonaktif'],
+            ['tahun_ajaran' => '2025/2026', 'tingkatan_semester' => 'genap',  'status' => 'aktif'],
         ]);
 
-        // Semester 1 (2022/2023 ganjil) - previous semester jadwal
+        // Semester 1 (2024/2025 ganjil) - previous semester jadwal
         DB::table('jadwal_kuliah')->insert([
             ['id_matkul' => 13, 'id_dosen' => '198504122010', 'id_semester' => 1, 'hari' => 'Senin',  'jam_mulai' => '08:00:00', 'jam_selesai' => '10:40:00', 'ruang' => 'R.301', 'kuota' => 35],
             ['id_matkul' => 14, 'id_dosen' => '197803052008', 'id_semester' => 1, 'hari' => 'Selasa', 'jam_mulai' => '08:00:00', 'jam_selesai' => '10:40:00', 'ruang' => 'R.302', 'kuota' => 35],
         ]);
 
-        // Semester 4 (2023/2024 genap - aktif) - current semester jadwal
+        // Semester 4 (2025/2026 genap - aktif) - current semester jadwal
         DB::table('jadwal_kuliah')->insert([
             ['id_matkul' => 1,  'id_dosen' => '198504122010', 'id_semester' => 4, 'hari' => 'Senin',  'jam_mulai' => '08:00:00', 'jam_selesai' => '10:40:00', 'ruang' => 'R.401', 'kuota' => 35],
             ['id_matkul' => 2,  'id_dosen' => '197803052008', 'id_semester' => 4, 'hari' => 'Selasa', 'jam_mulai' => '10:00:00', 'jam_selesai' => '12:40:00', 'ruang' => 'Lab A', 'kuota' => 30],
@@ -102,8 +102,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('pengumuman')->insert([
-            ['judul' => 'Pengisian KRS Semester Genap 2023/2024 Dibuka',   'isi' => 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2024.', 'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
-            ['judul' => 'Jadwal UTS Semester Genap 2023/2024',             'isi' => 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2024. Detail jadwal akan diumumkan lebih lanjut.',          'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Pengisian KRS Semester Genap 2025/2026 Dibuka',   'isi' => 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2026.', 'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Jadwal UTS Semester Genap 2025/2026',             'isi' => 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2026. Detail jadwal akan diumumkan lebih lanjut.',          'tipe' => 'ACADEMIC', 'created_at' => now(), 'updated_at' => now()],
             ['judul' => 'Beasiswa Prestasi Akademik 2024 Dibuka',          'isi' => 'Pendaftaran beasiswa prestasi akademik tahun 2024 sudah dibuka. Silakan kunjungi portal beasiswa untuk informasi lebih lanjut.', 'tipe' => 'EVENT', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }

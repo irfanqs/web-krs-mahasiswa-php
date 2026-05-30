@@ -61,26 +61,26 @@ INSERT INTO `mata_kuliah` (`kode_matkul`, `nama_matkul`, `sks`, `semester`, `jen
 -- Semester Data
 -- =====================================================
 INSERT INTO `semester` (`tahun_ajaran`, `tingkatan_semester`, `status`) VALUES
-('2022/2023', 'ganjil', 'nonaktif'),
-('2022/2023', 'genap', 'nonaktif'),
-('2023/2024', 'ganjil', 'nonaktif'),
-('2023/2024', 'genap', 'aktif');
+('2024/2025', 'ganjil', 'nonaktif'),
+('2024/2025', 'genap', 'nonaktif'),
+('2025/2026', 'ganjil', 'nonaktif'),
+('2025/2026', 'genap', 'aktif');
 
 -- =====================================================
 -- Jadwal Kuliah - Semester 3 (for nilai calculation)
--- id_semester will be 1 (2022/2023 ganjil) - update after checking ID
+-- id_semester will be 1 (2024/2025 ganjil) - update after checking ID
 -- For now we'll use semester ID 1 as reference
 -- =====================================================
 INSERT INTO `jadwal_kuliah` (`id_matkul`, `id_dosen`, `id_semester`, `hari`, `jam_mulai`, `jam_selesai`, `ruang`, `kuota`) VALUES
--- Semester 3 (2022/2023 Ganjil)
+-- Semester 3 (2024/2025 Ganjil)
 (13, '198504122010', 1, 'Senin', '08:00:00', '10:40:00', 'R.301', 35),
 (14, '197803052008', 1, 'Selasa', '08:00:00', '10:40:00', 'R.302', 35);
 
 -- =====================================================
--- Jadwal Kuliah - Semester Aktif (2023/2024 Genap - id_semester=4)
+-- Jadwal Kuliah - Semester Aktif (2025/2026 Genap - id_semester=4)
 -- =====================================================
 INSERT INTO `jadwal_kuliah` (`id_matkul`, `id_dosen`, `id_semester`, `hari`, `jam_mulai`, `jam_selesai`, `ruang`, `kuota`) VALUES
--- Current semester (2023/2024 Genap)
+-- Current semester (2025/2026 Genap)
 (1, '198504122010', 4, 'Senin', '08:00:00', '10:40:00', 'R.401', 35),
 (2, '197803052008', 4, 'Selasa', '10:00:00', '12:40:00', 'Lab A', 30),
 (3, '198210302011', 4, 'Rabu', '08:00:00', '10:40:00', 'R.402', 35),
@@ -122,6 +122,6 @@ INSERT INTO `nilai` (`id_krs`, `tugas`, `uts`, `uas`, `nilai_angka`, `nilai_huru
 -- Pengumuman (Announcements)
 -- =====================================================
 INSERT INTO `pengumuman` (`judul`, `isi`, `tipe`) VALUES
-('Pengisian KRS Semester Genap 2023/2024 Dibuka', 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2024.', 'ACADEMIC'),
-('Jadwal UTS Semester Genap 2023/2024', 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2024. Detail jadwal akan diumumkan lebih lanjut.', 'ACADEMIC'),
+('Pengisian KRS Semester Genap 2025/2026 Dibuka', 'Sistem pengisian KRS sudah dibuka. Mahasiswa dapat melakukan pengisian KRS sampai dengan tanggal 28 Februari 2026.', 'ACADEMIC'),
+('Jadwal UTS Semester Genap 2025/2026', 'Ujian Tengah Semester akan dilaksanakan pada bulan Maret 2026. Detail jadwal akan diumumkan lebih lanjut.', 'ACADEMIC'),
 ('Beasiswa Prestasi Akademik 2024 Dibuka', 'Pendaftaran beasiswa prestasi akademik tahun 2024 sudah dibuka. Silakan kunjungi portal beasiswa untuk informasi lebih lanjut.', 'EVENT');

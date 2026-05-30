@@ -3,13 +3,13 @@
     $roleLabel = 'User';
     if (auth('mahasiswa')->check()) {
         $userName  = auth('mahasiswa')->user()->nama;
-        $roleLabel = 'Student';
+        $roleLabel = 'Mahasiswa';
     } elseif (auth('dosen')->check()) {
         $userName  = auth('dosen')->user()->nama;
-        $roleLabel = 'Lecturer';
+        $roleLabel = 'Dosen';
     } elseif (auth('admin')->check()) {
         $userName  = auth('admin')->user()->nama ?? 'Admin Administrator';
-        $roleLabel = 'Master Admin';
+        $roleLabel = 'Admin';
     }
 @endphp
 <style>
