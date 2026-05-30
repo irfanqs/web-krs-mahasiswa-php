@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,7 +17,8 @@ class MahasiswaController extends Controller
             $query->where(fn($q) => $q->where('nama','like',"%{$search}%")->orWhere('nim','like',"%{$search}%"));
         }
         $mahasiswaList = $query->orderBy('nama')->paginate(15)->withQueryString();
-        return view('admin.mahasiswa.index', compact('mahasiswaList'));
+        $semesterAktif = Semester::aktif();
+        return view('admin.mahasiswa.index', compact('mahasiswaList', 'semesterAktif'));
     }
 
     public function create()

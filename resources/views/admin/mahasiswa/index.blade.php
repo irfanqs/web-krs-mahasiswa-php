@@ -345,6 +345,7 @@
                 <th>NAMA MAHASISWA</th>
                 <th>PROGRAM STUDI</th>
                 <th>ANGKATAN</th>
+                <th>SEMESTER</th>
                 <th>STATUS</th>
                 <th>AKSI</th>
             </tr>
@@ -368,6 +369,18 @@
                 </td>
                 <td class="td-prodi">{{ $m->program_studi }}</td>
                 <td class="td-angkatan">{{ $m->angkatan }}</td>
+                <td class="td-angkatan">
+                    @if($semesterAktif && $m->status === 'aktif')
+                        @php
+                            $tahunAktif = (int) explode('/', $semesterAktif->tahun_ajaran)[0];
+                            $semesterKe = ($tahunAktif - (int)$m->angkatan) * 2 + ($semesterAktif->tingkatan_semester === 'genap' ? 2 : 1);
+                            $semesterKe = max(1, $semesterKe);
+                        @endphp
+                        Semester {{ $semesterKe }}
+                    @else
+                        -
+                    @endif
+                </td>
                 <td>
                     @if(strtolower($m->status) == 'aktif')
                         <span class="status-pill status-aktif">Aktif</span>
@@ -387,7 +400,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" style="text-align:center; padding: 40px; color: #6B7280;">
+                <td colspan="8" style="text-align:center; padding: 40px; color: #6B7280;">
                     <i class="bi bi-inbox" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
                     Tidak ada data mahasiswa ditemukan.
                 </td>

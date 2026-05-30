@@ -165,4 +165,145 @@ class KrsController extends Controller
             return response()->json(['ok' => false, 'errors' => [$e->getMessage()]], 400);
         }
     }
+
+    public function enroll(Request $request)
+    {
+        $nim = Auth::guard('mahasiswa')->user()->nim;
+        $idJadwal = (int) $request->input('id_jadwal');
+
+        try {
+            DB::beginTransaction();
+
+            $semesterAktif = Semester::aktif();
+            if (!$semesterAktif) throw new \Exception('Tidak ada semester aktif.');
+
+            $jadwal = DB::table('jadwal_kuliah as jk')
+                ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+                ->where('jk.id_jadwal', $idJadwal)
+                ->where('jk.id_semester', $semesterAktif->id_semester)
+                ->select('jk.*', 'mk.sks', 'mk.nama_matkul', 'mk.id_matkul',
+                    DB::raw('(SELECT COUNT(*) FROM krs WHERE id_jadwal = jk.id_jadwal) as enrolled'))
+                ->first();
+
+            if (!$jadwal) throw new \Exception('Jadwal tidak ditemukan.');
+            if ($jadwal->enrolled >= $jadwal->kuota) throw new \Exception('Kelas sudah penuh.');
+
+            // Cek sudah terdaftar
+            $alreadyEnrolled = DB::table('krs')->where('id_mahasiswa', $nim)->where('id_jadwal', $idJadwal)->exists();
+            if ($alreadyEnrolled) throw new \Exception('Sudah terdaftar di mata kuliah ini.');
+
+            // Hitung IPK & max SKS
+            $ipkData = DB::table('nilai as n')
+                ->join('krs as k', 'n.id_krs', '=', 'k.id_krs')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+                ->where('k.id_mahasiswa', $nim)->where('n.status_kunci', 1)
+                ->selectRaw('COALESCE(SUM(CASE n.nilai_huruf WHEN "A" THEN 4.0 WHEN "B+" THEN 3.5 WHEN "B" THEN 3.0 WHEN "C+" THEN 2.5 WHEN "C" THEN 2.0 WHEN "D" THEN 1.0 ELSE 0.0 END * mk.sks) / NULLIF(SUM(mk.sks),0), 0) as ipk')
+                ->first();
+            $ipk = floatval($ipkData->ipk ?? 0);
+            $maxSks = $this->getMaxSks($ipk);
+
+            // Hitung total SKS aktif
+            $currentSks = DB::table('krs as k')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+                ->where('k.id_mahasiswa', $nim)
+                ->where('jk.id_semester', $semesterAktif->id_semester)
+                ->sum('mk.sks');
+
+            if ($currentSks + $jadwal->sks > $maxSks) {
+                throw new \Exception("Total SKS akan melebihi batas maksimal ({$maxSks} SKS).");
+            }
+
+            // Cek bentrok jadwal
+            $existingJadwal = DB::table('krs as k')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->where('k.id_mahasiswa', $nim)
+                ->where('jk.id_semester', $semesterAktif->id_semester)
+                ->select('jk.hari', 'jk.jam_mulai', 'jk.jam_selesai')
+                ->get();
+
+            foreach ($existingJadwal as $existing) {
+                if ($existing->hari === $jadwal->hari) {
+                    if (!(strtotime($jadwal->jam_selesai) <= strtotime($existing->jam_mulai) ||
+                          strtotime($existing->jam_selesai) <= strtotime($jadwal->jam_mulai))) {
+                        throw new \Exception("Jadwal bentrok dengan kelas lain pada hari {$jadwal->hari}.");
+                    }
+                }
+            }
+
+            // Cek duplikat matkul
+            $duplicateMatkul = DB::table('krs as k')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->where('k.id_mahasiswa', $nim)
+                ->where('jk.id_semester', $semesterAktif->id_semester)
+                ->where('jk.id_matkul', $jadwal->id_matkul)
+                ->exists();
+            if ($duplicateMatkul) throw new \Exception('Mata kuliah yang sama sudah ada di KRS Anda.');
+
+            Krs::create(['id_mahasiswa' => $nim, 'id_jadwal' => $idJadwal, 'tanggal_ambil' => now()]);
+
+            DB::commit();
+
+            $newCurrentSks = $currentSks + $jadwal->sks;
+            return response()->json([
+                'ok' => true,
+                'message' => "{$jadwal->nama_matkul} berhasil dienroll.",
+                'current_sks' => $newCurrentSks,
+                'max_sks' => $maxSks,
+                'balance' => $maxSks - $newCurrentSks,
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['ok' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function drop(Request $request)
+    {
+        $nim = Auth::guard('mahasiswa')->user()->nim;
+        $idJadwal = (int) $request->input('id_jadwal');
+
+        try {
+            $semesterAktif = Semester::aktif();
+            if (!$semesterAktif) throw new \Exception('Tidak ada semester aktif.');
+
+            $deleted = DB::table('krs')
+                ->where('id_mahasiswa', $nim)
+                ->where('id_jadwal', $idJadwal)
+                ->whereIn('id_jadwal', DB::table('jadwal_kuliah')
+                    ->where('id_semester', $semesterAktif->id_semester)
+                    ->pluck('id_jadwal'))
+                ->delete();
+
+            if (!$deleted) throw new \Exception('Data KRS tidak ditemukan.');
+
+            $currentSks = DB::table('krs as k')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+                ->where('k.id_mahasiswa', $nim)
+                ->where('jk.id_semester', $semesterAktif->id_semester)
+                ->sum('mk.sks');
+
+            $ipkData = DB::table('nilai as n')
+                ->join('krs as k', 'n.id_krs', '=', 'k.id_krs')
+                ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+                ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+                ->where('k.id_mahasiswa', $nim)->where('n.status_kunci', 1)
+                ->selectRaw('COALESCE(SUM(CASE n.nilai_huruf WHEN "A" THEN 4.0 WHEN "B+" THEN 3.5 WHEN "B" THEN 3.0 WHEN "C+" THEN 2.5 WHEN "C" THEN 2.0 WHEN "D" THEN 1.0 ELSE 0.0 END * mk.sks) / NULLIF(SUM(mk.sks),0), 0) as ipk')
+                ->first();
+            $ipk = floatval($ipkData->ipk ?? 0);
+            $maxSks = $this->getMaxSks($ipk);
+
+            return response()->json([
+                'ok' => true,
+                'message' => 'Mata kuliah berhasil di-drop.',
+                'current_sks' => $currentSks,
+                'max_sks' => $maxSks,
+                'balance' => $maxSks - $currentSks,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['ok' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
 }

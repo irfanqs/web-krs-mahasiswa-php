@@ -31,6 +31,8 @@ Route::middleware('auth.mahasiswa')->prefix('mahasiswa')->name('mahasiswa.')->gr
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::get('/krs', [KrsController::class, 'index'])->name('krs');
     Route::post('/krs/save', [KrsController::class, 'save'])->name('krs.save');
+    Route::post('/krs/enroll', [KrsController::class, 'enroll'])->name('krs.enroll');
+    Route::post('/krs/drop', [KrsController::class, 'drop'])->name('krs.drop');
     Route::get('/khs', [KhsController::class, 'index'])->name('khs');
     Route::get('/jadwal', [MahasiswaJadwal::class, 'index'])->name('jadwal');
     Route::post('/logout', [LoginController::class, 'logoutMahasiswa'])->name('logout');
