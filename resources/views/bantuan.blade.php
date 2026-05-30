@@ -8,12 +8,13 @@
     /* Hero */
     .bantuan-hero {
         background: linear-gradient(135deg, #1B3679 0%, #2A4A9E 100%);
-        border-radius: 20px; padding: 40px 48px; color: white; margin-bottom: 36px;
+        border-radius: 20px; padding: 40px 48px; margin-bottom: 36px;
         display: flex; align-items: center; gap: 32px;
     }
-    .bantuan-hero-icon { font-size: 52px; opacity: 0.9; flex-shrink: 0; }
-    .bantuan-hero h1 { font-size: 28px; font-weight: 800; margin: 0 0 8px; }
-    .bantuan-hero p { font-size: 15px; opacity: 0.85; margin: 0; line-height: 1.6; }
+    .bantuan-hero-icon { font-size: 52px; color: #ffffff !important; flex-shrink: 0; }
+    .bantuan-hero h1 { font-size: 28px; font-weight: 800; margin: 0 0 8px; color: #ffffff !important; }
+    .bantuan-hero p { font-size: 15px; color: rgba(255,255,255,0.88) !important; margin: 0; line-height: 1.6; }
+    .bantuan-hero p strong { color: #ffffff !important; }
 
     /* Search */
     .bantuan-search { position: relative; margin-bottom: 36px; }
