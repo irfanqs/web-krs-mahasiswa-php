@@ -36,6 +36,11 @@
         'dosen'     => route('dosen.logout'),
         default     => route('admin.logout'),
     };
+    $bantuanRoute = match($role) {
+        'mahasiswa' => route('mahasiswa.bantuan'),
+        'dosen'     => route('dosen.bantuan'),
+        default     => route('admin.bantuan'),
+    };
 @endphp
 <style>
     :root { --sidebar-width: 260px; }
@@ -98,7 +103,7 @@
     </div>
     <div class="sidebar-footer">
         <div class="sidebar-secondary-links">
-            <a href="#"><i class="bi bi-question-circle"></i> Pusat Bantuan</a>
+            <a href="{{ $bantuanRoute }}" class="{{ str_contains($currentRoute ?? '', 'bantuan') ? 'active' : '' }}"><i class="bi bi-question-circle"></i> Pusat Bantuan</a>
             <a href="{{ $logoutRoute }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                class="logout">

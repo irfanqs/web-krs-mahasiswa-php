@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\DosenController as AdminDosen;
 use App\Http\Controllers\Admin\MatkulController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\JadwalController as AdminJadwal;
+use App\Http\Controllers\BantuanController;
 
 // Root redirect
 Route::get('/', fn() => redirect()->route('login'));
@@ -39,6 +40,7 @@ Route::middleware('auth.mahasiswa')->prefix('mahasiswa')->name('mahasiswa.')->gr
     Route::post('/krs/drop', [KrsController::class, 'drop'])->name('krs.drop');
     Route::get('/khs', [KhsController::class, 'index'])->name('khs');
     Route::get('/jadwal', [MahasiswaJadwal::class, 'index'])->name('jadwal');
+    Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
     Route::post('/logout', [LoginController::class, 'logoutMahasiswa'])->name('logout');
 });
 
@@ -49,6 +51,7 @@ Route::middleware('auth.dosen')->prefix('dosen')->name('dosen.')->group(function
     Route::get('/input-nilai', [InputNilaiController::class, 'index'])->name('input_nilai');
     Route::post('/input-nilai/save', [InputNilaiController::class, 'save'])->name('input_nilai.save');
     Route::get('/jadwal', [DosenJadwal::class, 'index'])->name('jadwal');
+    Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
     Route::post('/logout', [LoginController::class, 'logoutDosen'])->name('logout');
 });
 
@@ -60,5 +63,6 @@ Route::middleware('auth.admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('matkul', MatkulController::class)->parameters(['matkul' => 'id']);
     Route::resource('semester', SemesterController::class)->parameters(['semester' => 'id']);
     Route::resource('jadwal', AdminJadwal::class)->parameters(['jadwal' => 'id']);
+    Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
     Route::post('/logout', [LoginController::class, 'logoutAdmin'])->name('logout');
 });
