@@ -42,6 +42,15 @@ class KrsController extends Controller
         $semesterAktif = Semester::aktif();
         $idSemester = $semesterAktif?->id_semester ?? 0;
 
+        // Hitung semester mahasiswa saat ini
+        $studentSemester = 1;
+        if ($semesterAktif) {
+            $tahunAktif = (int) explode('/', $semesterAktif->tahun_ajaran)[0];
+            $studentSemester = ($tahunAktif - (int) $mahasiswa->angkatan) * 2
+                + ($semesterAktif->tingkatan_semester === 'genap' ? 2 : 1);
+            $studentSemester = max(1, $studentSemester);
+        }
+
         $availableCourses = DB::table('jadwal_kuliah as jk')
             ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
             ->join('dosen as d', 'jk.id_dosen', '=', 'd.nidn')
@@ -75,7 +84,7 @@ class KrsController extends Controller
         return view('mahasiswa.krs', compact(
             'mahasiswa', 'ipk', 'semesterAktif', 'availableCourses',
             'selectedJadwal', 'currentSks', 'mandatorySks', 'electiveSks',
-            'maxSks', 'isKrsLocked'
+            'maxSks', 'isKrsLocked', 'studentSemester'
         ));
     }
 
@@ -181,12 +190,24 @@ class KrsController extends Controller
                 ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
                 ->where('jk.id_jadwal', $idJadwal)
                 ->where('jk.id_semester', $semesterAktif->id_semester)
-                ->select('jk.*', 'mk.sks', 'mk.nama_matkul', 'mk.id_matkul',
+                ->select('jk.*', 'mk.sks', 'mk.nama_matkul', 'mk.id_matkul', 'mk.jenis', 'mk.semester as mk_semester',
                     DB::raw('(SELECT COUNT(*) FROM krs WHERE id_jadwal = jk.id_jadwal) as enrolled'))
                 ->first();
 
             if (!$jadwal) throw new \Exception('Jadwal tidak ditemukan.');
             if ($jadwal->enrolled >= $jadwal->kuota) throw new \Exception('Kelas sudah penuh.');
+
+            // Validasi semester: matkul wajib tidak bisa diambil jika semester matkul > semester mahasiswa
+            if ($jadwal->jenis === 'wajib') {
+                $tahunAktif = (int) explode('/', $semesterAktif->tahun_ajaran)[0];
+                $mahasiswaModel = Auth::guard('mahasiswa')->user();
+                $studentSemester = ($tahunAktif - (int) $mahasiswaModel->angkatan) * 2
+                    + ($semesterAktif->tingkatan_semester === 'genap' ? 2 : 1);
+                $studentSemester = max(1, $studentSemester);
+                if ($jadwal->mk_semester > $studentSemester) {
+                    throw new \Exception("Matkul wajib semester {$jadwal->mk_semester} belum bisa diambil (Anda semester {$studentSemester}).");
+                }
+            }
 
             // Cek sudah terdaftar
             $alreadyEnrolled = DB::table('krs')->where('id_mahasiswa', $nim)->where('id_jadwal', $idJadwal)->exists();

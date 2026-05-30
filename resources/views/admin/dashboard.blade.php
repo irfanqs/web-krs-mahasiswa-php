@@ -210,39 +210,39 @@
         <div class="stat-card-content">
             <div class="stat-title">TOTAL MAHASISWA</div>
             <div class="stat-value">{{ number_format($totalMahasiswa ?? 4821) }}</div>
-            <div class="stat-badge badge-green">+12% vs LY</div>
+            <div class="stat-badge badge-green">+12% dari tahun lalu</div>
         </div>
     </div>
     <div class="stat-card">
         <div class="stat-card-content">
             <div class="stat-title">TOTAL DOSEN</div>
             <div class="stat-value">{{ number_format($totalDosen ?? 156) }}</div>
-            <div class="stat-badge badge-blue">Stable</div>
+            <div class="stat-badge badge-blue">Stabil</div>
         </div>
     </div>
     <div class="stat-card">
         <div class="stat-card-content">
             <div class="stat-title">TOTAL MATKUL</div>
             <div class="stat-value">{{ number_format($totalMatkul ?? 342) }}</div>
-            <div class="stat-badge badge-orange">+4 New</div>
+            <div class="stat-badge badge-orange">+4 Baru</div>
         </div>
     </div>
     <div class="stat-card stat-card-navy">
         <div class="stat-card-content">
-            <div class="stat-title">KRS VALIDATION</div>
+            <div class="stat-title">VALIDASI KRS</div>
             @php $krsPercent = isset($totalKrs) && isset($totalKrsTarget) && $totalKrsTarget > 0 ? min(100, round(($totalKrs / $totalKrsTarget) * 100)) : 85; @endphp
             <div class="stat-value" style="font-size: 32px; margin-bottom: 16px;">{{ $krsPercent }}%</div>
             <div style="height: 6px; background: rgba(255,255,255,0.2); border-radius: 99px; margin-bottom: 8px; overflow: hidden;">
                 <div style="height: 100%; width: {{ $krsPercent }}%; background: white; border-radius: 99px;"></div>
             </div>
-            <div style="font-size: 11px; color: rgba(255,255,255,0.7);">Progress for {{ $semesterAktif ? ucfirst($semesterAktif->tingkatan_semester) . ' ' . $semesterAktif->tahun_ajaran : 'Genap 2024/2025' }}</div>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.7);">Progress for {{ $semesterAktif ? ucfirst($semesterAktif->tingkatan_semester) . ' ' . $semesterAktif->tahun_ajaran : 'Genap 2025/2026' }}</div>
         </div>
     </div>
 </div>
 
 <div class="main-layout">
     <div class="left-col">
-        <div class="section-title">QUICK ACCESS MANAGEMENT</div>
+        <div class="section-title">MANAJEMEN AKSES CEPAT</div>
         <div class="quick-access-grid">
             <a href="{{ route('admin.mahasiswa.index') }}" class="qa-card">
                 <div class="qa-icon"><i class="bi bi-people"></i></div>
@@ -260,31 +260,31 @@
         
         <div class="activity-log">
             <div class="activity-header">
-                <div class="activity-title">Recent Activity Log</div>
-                <a href="#" class="view-all">VIEW ALL LOGS</a>
+                <div class="activity-title">Log Aktivitas Terbaru</div>
+                <a href="#" class="view-all">LIHAT SEMUA LOG</a>
             </div>
             
             <div class="log-item">
                 <div class="log-icon log-icon-blue"><i class="bi bi-box-arrow-in-right"></i></div>
                 <div class="log-content">
-                    <div class="log-title">Login success: Administrator Utama</div>
-                    <div class="log-meta">Today at 09:42 AM • IP: 192.168.1.42</div>
+                    <div class="log-title">Login berhasil: Administrator Utama</div>
+                    <div class="log-meta">Hari ini pukul 09:42 • IP: 192.168.1.42</div>
                 </div>
             </div>
-            
+
             <div class="log-item">
                 <div class="log-icon log-icon-orange"><i class="bi bi-arrow-clockwise"></i></div>
                 <div class="log-content">
-                    <div class="log-title">Updated Course Data: "Algoritma Pemrograman II"</div>
-                    <div class="log-meta">Today at 08:15 AM • Modified by Dr. Hendra</div>
+                    <div class="log-title">Pembaruan Data Mata Kuliah: "Algoritma Pemrograman II"</div>
+                    <div class="log-meta">Hari ini pukul 08:15 • Diubah oleh Dr. Hendra</div>
                 </div>
             </div>
-            
+
             <div class="log-item">
                 <div class="log-icon log-icon-green"><i class="bi bi-person-plus"></i></div>
                 <div class="log-content">
-                    <div class="log-title">Batch Import: 42 New Mahasiswa (Informatika)</div>
-                    <div class="log-meta">Yesterday at 11:30 PM • System Automation</div>
+                    <div class="log-title">Impor Massal: 42 Mahasiswa Baru (Informatika)</div>
+                    <div class="log-meta">Kemarin pukul 23:30 • Otomasi Sistem</div>
                 </div>
             </div>
         </div>
@@ -292,46 +292,46 @@
     
     <div class="right-col">
         <div class="side-card side-card-navy">
-            <div class="semester-title">ACADEMIC SEMESTER</div>
-            <div class="semester-value">{{ $semesterAktif ? ucfirst($semesterAktif->tingkatan_semester) . ' ' . $semesterAktif->tahun_ajaran : 'Genap 2024/2025' }}</div>
-            <div class="semester-period">Active Period: Feb - Aug 2025</div>
-            
+            <div class="semester-title">SEMESTER AKADEMIK</div>
+            <div class="semester-value">{{ $semesterAktif ? ucfirst($semesterAktif->tingkatan_semester) . ' ' . $semesterAktif->tahun_ajaran : 'Genap 2025/2026' }}</div>
+            <div class="semester-period">Periode Aktif: Feb - Agu 2026</div>
+
             <div class="semester-row">
-                <span class="semester-row-label">UAS Preparation</span>
-                <span class="semester-row-value">12 Days Left</span>
+                <span class="semester-row-label">Persiapan UAS</span>
+                <span class="semester-row-value">12 Hari Tersisa</span>
             </div>
             <div class="semester-row" style="margin-bottom:0;">
-                <span class="semester-row-label">Judicium Deadline</span>
-                <span class="semester-row-value">Aug 15, 2025</span>
+                <span class="semester-row-label">Batas Yudisium</span>
+                <span class="semester-row-value">15 Agu 2025</span>
             </div>
         </div>
         
         <div class="side-card">
-            <div class="section-title">FACULTY DISTRIBUTION</div>
-            
+            <div class="section-title">DISTRIBUSI FAKULTAS</div>
+
             <div class="dist-row">
                 <div class="dist-header">
-                    <span>Engineering</span>
+                    <span>Teknik</span>
                     <span>42%</span>
                 </div>
                 <div class="dist-bar-bg">
                     <div class="dist-bar-fill dist-blue" style="width: 42%"></div>
                 </div>
             </div>
-            
+
             <div class="dist-row">
                 <div class="dist-header">
-                    <span>Economics</span>
+                    <span>Ekonomi</span>
                     <span>28%</span>
                 </div>
                 <div class="dist-bar-bg">
                     <div class="dist-bar-fill dist-indigo" style="width: 28%"></div>
                 </div>
             </div>
-            
+
             <div class="dist-row" style="margin-bottom:0;">
                 <div class="dist-header">
-                    <span>Humanities</span>
+                    <span>Humaniora</span>
                     <span>15%</span>
                 </div>
                 <div class="dist-bar-bg">
@@ -343,11 +343,11 @@
         <div class="side-card">
             <div class="status-header">
                 <div class="status-dot"></div>
-                SYSTEM STATUS: OPTIMAL
+                STATUS SISTEM: OPTIMAL
             </div>
             <div class="status-grid">
                 <div class="status-box">
-                    <div class="status-box-label">SERVER LOAD</div>
+                    <div class="status-box-label">BEBAN SERVER</div>
                     <div class="status-box-value">12%</div>
                 </div>
                 <div class="status-box">

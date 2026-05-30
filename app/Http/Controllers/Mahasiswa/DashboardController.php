@@ -38,6 +38,14 @@ class DashboardController extends Controller
 
         $semesterAktif = Semester::aktif();
 
+        $currentSemester = 1;
+        if ($semesterAktif) {
+            $tahunAktif = (int) explode('/', $semesterAktif->tahun_ajaran)[0];
+            $currentSemester = ($tahunAktif - (int) $mahasiswa->angkatan) * 2
+                + ($semesterAktif->tingkatan_semester === 'genap' ? 2 : 1);
+            $currentSemester = max(1, $currentSemester);
+        }
+
         $hariToday = now()->locale('id')->isoFormat('dddd');
         $hariMap = ['Monday'=>'Senin','Tuesday'=>'Selasa','Wednesday'=>'Rabu','Thursday'=>'Kamis','Friday'=>'Jumat','Saturday'=>'Sabtu'];
         $hariIndo = $hariMap[now()->format('l')] ?? now()->format('l');
@@ -59,7 +67,7 @@ class DashboardController extends Controller
         $pengumuman = Pengumuman::latest()->take(3)->get();
 
         return view('mahasiswa.dashboard', compact(
-            'mahasiswa', 'ipk', 'sksTempuh', 'semesterAktif', 'jadwalHariIni', 'pengumuman'
+            'mahasiswa', 'ipk', 'sksTempuh', 'semesterAktif', 'jadwalHariIni', 'pengumuman', 'currentSemester'
         ));
     }
 }

@@ -329,29 +329,29 @@
     <div class="left-col">
         <!-- Welcome Card -->
         <div class="welcome-card">
-            <div class="welcome-title">Welcome back, {{ $firstName }}.</div>
+            <div class="welcome-title">Selamat datang kembali, {{ $firstName }}.</div>
             <div class="welcome-subtitle">Your academic journey is looking exceptional this semester. You're currently in the top 5% of your cohort.</div>
             
             <div class="stats-row">
                 <div class="stat-box">
-                    <span class="stat-label">GPA (IPK)</span>
+                    <span class="stat-label">IPK</span>
                     <div class="stat-val">{{ number_format($ipk, 2) }}</div>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label">CREDITS EARNED</span>
+                    <span class="stat-label">SKS DITEMPUH</span>
                     <div class="stat-val">{{ $sksTempuh }} <span>SKS</span></div>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label">CURRENT SEMESTER</span>
-                    <div class="stat-val">0{{ $semesterAktif ? (substr($semesterAktif->tahun_ajaran, -1) == '1' ? '7' : '6') : '7' }}</div>
+                    <span class="stat-label">SEMESTER SAAT INI</span>
+                    <div class="stat-val">{{ str_pad($currentSemester, 2, '0', STR_PAD_LEFT) }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Degree Path -->
+        <!-- Jalur Kelulusan -->
         <div class="degree-card">
             <div class="degree-info">
-                <div class="degree-title">Degree Path</div>
+                <div class="degree-title">Jalur Kelulusan</div>
                 <div class="degree-subtitle">{{ $mahasiswa->program_studi }}</div>
                 <div class="degree-progress-text">
                     <div class="degree-pct">{{ $progressPct }}%</div>
@@ -363,8 +363,8 @@
                     <div class="progress-bar-fill" style="width: {{ $progressPct }}%"></div>
                 </div>
                 <div class="progress-markers">
-                    <div class="marker"><div class="marker-dot done"></div> Core Curriculum<br>(Completed)</div>
-                    <div class="marker"><div class="marker-dot pending"></div> Thesis Defense<br>(Pending)</div>
+                    <div class="marker"><div class="marker-dot done"></div> Kurikulum Inti<br>(Selesai)</div>
+                    <div class="marker"><div class="marker-dot pending"></div> Sidang Skripsi<br>(Menunggu)</div>
                 </div>
             </div>
         </div>
@@ -373,15 +373,15 @@
         <div class="announcement-card">
             <div class="section-header">
                 <h3 class="section-title">Pengumuman Kampus</h3>
-                <a href="#" class="view-all">VIEW ALL</a>
+                <a href="#" class="view-all">LIHAT SEMUA</a>
             </div>
             <div class="announcement-list">
                 @php
                     // Map real pengumuman to the mockup's badge styles or use fallbacks
                     $defaultAnnouncements = [
-                        (object)['created_at' => \Carbon\Carbon::parse('2023-10-12'), 'judul' => 'Mid-Semester Examination Schedule for Fall 2023', 'desc' => 'Detailed schedules are now available for...', 'tipe' => 'ACADEMIC'],
-                        (object)['created_at' => \Carbon\Carbon::parse('2023-10-09'), 'judul' => 'Digital Library Maintenance - Temporary Downtime', 'desc' => 'Service will be interrupted this weekend fo...', 'tipe' => 'SYSTEM'],
-                        (object)['created_at' => \Carbon\Carbon::parse('2023-10-05'), 'judul' => 'New Seminar Series: AI in the Modern Workplace', 'desc' => 'Join us for a three-part guest lecture...', 'tipe' => 'EVENT'],
+                        (object)['created_at' => \Carbon\Carbon::parse('2025-10-12'), 'judul' => 'Jadwal UTS Semester Ganjil 2025', 'desc' => 'Detailed schedules are now available for...', 'tipe' => 'ACADEMIC'],
+                        (object)['created_at' => \Carbon\Carbon::parse('2025-10-09'), 'judul' => 'Pemeliharaan Perpustakaan Digital', 'desc' => 'Service will be interrupted this weekend fo...', 'tipe' => 'SYSTEM'],
+                        (object)['created_at' => \Carbon\Carbon::parse('2025-10-05'), 'judul' => 'Seri Seminar: AI di Dunia Kerja Modern', 'desc' => 'Join us for a three-part guest lecture...', 'tipe' => 'EVENT'],
                     ];
                     $displayPengumuman = $pengumuman->count() > 0 ? $pengumuman->take(3) : $defaultAnnouncements;
                 @endphp
@@ -405,29 +405,29 @@
 
     <!-- RIGHT COLUMN -->
     <div class="right-col">
-        <div class="quick-access-header">QUICK ACCESS</div>
+        <div class="quick-access-header">AKSES CEPAT</div>
         <div class="qa-list">
             <a href="{{ route('mahasiswa.krs') }}" class="qa-card">
                 <div class="qa-icon"><i class="bi bi-clipboard-check"></i></div>
                 <div class="qa-text">
-                    <div class="qa-title">KRS Enrollment</div>
-                    <div class="qa-subtitle">Plan your next semester</div>
+                    <div class="qa-title">Pengisian KRS</div>
+                    <div class="qa-subtitle">Rencanakan semester berikutnya</div>
                 </div>
                 <i class="bi bi-chevron-right qa-arrow"></i>
             </a>
             <a href="{{ route('mahasiswa.khs') }}" class="qa-card">
                 <div class="qa-icon"><i class="bi bi-file-earmark-text"></i></div>
                 <div class="qa-text">
-                    <div class="qa-title">KHS Results</div>
-                    <div class="qa-subtitle">View detailed grades</div>
+                    <div class="qa-title">Hasil Studi (KHS)</div>
+                    <div class="qa-subtitle">Lihat detail nilai</div>
                 </div>
                 <i class="bi bi-chevron-right qa-arrow"></i>
             </a>
             <a href="{{ route('mahasiswa.jadwal') }}" class="qa-card">
                 <div class="qa-icon"><i class="bi bi-qr-code-scan"></i></div>
                 <div class="qa-text">
-                    <div class="qa-title">Attendance List</div>
-                    <div class="qa-subtitle">Scan to check-in</div>
+                    <div class="qa-title">Daftar Hadir</div>
+                    <div class="qa-subtitle">Scan untuk absensi</div>
                 </div>
                 <i class="bi bi-chevron-right qa-arrow"></i>
             </a>
@@ -437,7 +437,7 @@
 
         <div class="sessions-card">
             <div class="section-header">
-                <h3 class="section-title">Today's Sessions</h3>
+                <h3 class="section-title">Jadwal Hari Ini</h3>
                 <div class="badge-date">{{ now()->format('D, d M') }}</div>
             </div>
             
@@ -465,7 +465,7 @@
                 @endforeach
             </div>
             
-            <a href="{{ route('mahasiswa.jadwal') }}" class="full-schedule-link">FULL SCHEDULE &rarr;</a>
+            <a href="{{ route('mahasiswa.jadwal') }}" class="full-schedule-link">JADWAL LENGKAP &rarr;</a>
         </div>
     </div>
 </div>

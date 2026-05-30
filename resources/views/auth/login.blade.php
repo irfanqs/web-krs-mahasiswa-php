@@ -73,8 +73,8 @@
                 <i class="bi bi-images" style="font-size:24px;"></i>
                 <div class="logo-text">SIAKAD Gallery</div>
             </div>
-            <div class="tagline">Elevating your academic journey.</div>
-            <div class="tagline-desc">Experience a curated educational portal designed for excellence, clarity, and institutional prestige.</div>
+            <div class="tagline">Tingkatkan perjalanan akademik Anda.</div>
+            <div class="tagline-desc">Portal akademik terpadu yang dirancang untuk keunggulan, kemudahan, dan prestasi institusi.</div>
             <div class="hero-img-container">
                 <img src="{{ asset('assets/img/corridor_blue.png') }}" alt="University Corridor" class="hero-img"
                     onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
@@ -83,8 +83,8 @@
         </div>
 
         <div class="login-panel-right">
-            <h1 class="login-title">Welcome Back</h1>
-            <p class="login-subtitle">Please enter your credentials to proceed.</p>
+            <h1 class="login-title">Selamat Datang</h1>
+            <p class="login-subtitle">Masukkan kredensial Anda untuk melanjutkan.</p>
 
             @if(session('error'))
                 <div class="alert alert-error">
@@ -101,7 +101,7 @@
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <span class="form-section-label">SELECT YOUR ROLE</span>
+                <span class="form-section-label">PILIH PERAN</span>
                 <div class="role-selector">
                     <div class="role-btn {{ old('role', 'mahasiswa') === 'mahasiswa' ? 'active' : '' }}" data-role="mahasiswa">
                         <i class="bi bi-mortarboard role-icon"></i>
@@ -146,7 +146,7 @@
 
                 <div class="form-checkbox">
                     <input type="checkbox" id="remember" name="remember" value="1">
-                    <label for="remember">Remember this session</label>
+                    <label for="remember">Ingat sesi ini</label>
                 </div>
 
                 <button type="submit" class="btn-login">
@@ -156,15 +156,15 @@
 
             <div class="panel-footer">
                 <a href="#" class="manual-link"><i class="bi bi-book"></i> Panduan Sistem</a>
-                <span class="copyright-text">SIAKAD GALLERY &copy; {{ date('Y') }} &bull; ACADEMIC EXCELLENCE</span>
+                <span class="copyright-text">SIAKAD GALLERY &copy; {{ date('Y') }} &bull; KEUNGGULAN AKADEMIK</span>
             </div>
         </div>
     </div>
 
     <div class="global-footer">
-        <a href="#">SUPPORT CENTER</a>
-        <a href="#">PRIVACY POLICY</a>
-        <a href="#">TERMS OF SERVICE</a>
+        <a href="#">PUSAT BANTUAN</a>
+        <a href="#">KEBIJAKAN PRIVASI</a>
+        <a href="#">SYARAT LAYANAN</a>
     </div>
 
     <script>

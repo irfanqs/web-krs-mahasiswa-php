@@ -313,7 +313,7 @@
     <div class="header-section">
         <div>
             <h1 class="page-title">Kartu Hasil Studi - Semester {{ $semName }}</h1>
-            <p class="page-subtitle">Detailed performance report for your current academic cycle.</p>
+            <p class="page-subtitle">Laporan performa akademik Anda untuk semester yang dipilih.</p>
         </div>
         <div class="header-actions print-hide">
             <form method="GET">
@@ -337,7 +337,7 @@
             <div class="stat-title">IP SEMESTER INI</div>
             <div class="stat-value">{{ number_format($ips, 2) }}</div>
             <!-- Mockup badge since prev sem data isn't easily available in view -->
-            <div class="stat-badge"><i class="bi bi-graph-up-arrow"></i> +0.07 from prev sem</div>
+            <div class="stat-badge"><i class="bi bi-graph-up-arrow"></i> +0.07 dari sem. lalu</div>
         </div>
         <div class="stat-card stat-card-white border-left-blue">
             <div class="stat-title">IP KUMULATIF (IPK)</div>
@@ -402,20 +402,159 @@
             <div class="status-box">
                 <div>
                     <div class="f-stat-lbl" style="margin-bottom:4px;color:#9CA3AF;">STATUS AKADEMIK</div>
-                    <div class="status-text">AKTIF / MEMUASKAN</div>
+                    @if($totalSks == 0)
+                        <div class="status-text" style="color:#9CA3AF;">BELUM ADA NILAI</div>
+                    @elseif($ips >= 3.0)
+                        <div class="status-text">AKTIF / MEMUASKAN</div>
+                    @elseif($ips >= 2.0)
+                        <div class="status-text" style="color:#D97706;">AKTIF</div>
+                    @else
+                        <div class="status-text" style="color:#DC2626;">AKTIF / PERLU PERHATIAN</div>
+                    @endif
                 </div>
-                <div class="status-icon"><i class="bi bi-check"></i></div>
+                <div class="status-icon">
+                    @if($totalSks == 0)
+                        <i class="bi bi-dash" style="color:#9CA3AF;"></i>
+                    @elseif($ips >= 2.0)
+                        <i class="bi bi-check"></i>
+                    @else
+                        <i class="bi bi-exclamation-triangle" style="color:#DC2626;"></i>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Bottom Section: Notice -->
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
         <div class="notice-card">
-            <div class="notice-header"><i class="bi bi-info-circle"></i> ACADEMIC NOTICE</div>
+            <div class="notice-header"><i class="bi bi-info-circle"></i> PEMBERITAHUAN AKADEMIK</div>
             <p class="notice-text">Nilai Semester {{ $semName }} telah diverifikasi oleh Ketua Program Studi. Silakan menghubungi bagian akademik jika terdapat ketidaksesuaian data. Dokumen ini sah jika dicetak langsung dari sistem terpadu.</p>
         </div>
-        <!-- Timeline omitted as requested since there is no backend data -->
     </div>
+
+    {{-- ── RIWAYAT KHS SEMUA SEMESTER ─────────────────────────────── --}}
+    <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="font-size:20px;font-weight:800;color:#1B3679;margin:0;">Riwayat KHS Seluruh Semester</h2>
+        <span style="font-size:12px;font-weight:600;color:#9CA3AF;">Klik baris untuk melihat detail nilai</span>
+    </div>
+
+    @if(empty($riwayat))
+        <div style="background:white;border-radius:16px;padding:40px;text-align:center;color:#9CA3AF;font-size:14px;box-shadow:0 4px 20px rgba(0,0,0,0.03);">
+            Belum ada riwayat nilai yang terkunci.
+        </div>
+    @else
+    <div style="display:flex;flex-direction:column;gap:16px;">
+        @foreach($riwayat as $semId => $sem)
+        @php
+            $ipsColor = $sem['ips'] >= 3.5 ? '#059669' : ($sem['ips'] >= 3.0 ? '#2563EB' : ($sem['ips'] >= 2.5 ? '#D97706' : '#DC2626'));
+        @endphp
+        <div class="riwayat-block" id="block-{{ $semId }}">
+            {{-- Header row --}}
+            <div class="riwayat-header" onclick="toggleRiwayat({{ $semId }})">
+                <div style="display:flex;align-items:center;gap:16px;flex:1;">
+                    <div class="riwayat-sem-badge">{{ $sem['label'] }}</div>
+                    <div style="font-size:14px;font-weight:600;color:#4B5563;">
+                        {{ count($sem['matkul']) }} Mata Kuliah &bull; {{ $sem['total_sks'] }} SKS
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:24px;">
+                    <div style="text-align:right;">
+                        <div style="font-size:10px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">IPS</div>
+                        <div style="font-size:22px;font-weight:800;color:{{ $ipsColor }};">{{ number_format($sem['ips'],2) }}</div>
+                    </div>
+                    <i class="bi bi-chevron-down riwayat-chevron" id="chevron-{{ $semId }}" style="font-size:18px;color:#9CA3AF;transition:transform 0.2s;"></i>
+                </div>
+            </div>
+
+            {{-- Detail table --}}
+            <div class="riwayat-detail" id="detail-{{ $semId }}" style="display:none;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:#F8FAFC;">
+                            <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">Kode</th>
+                            <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">Mata Kuliah</th>
+                            <th style="padding:12px 20px;text-align:center;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">SKS</th>
+                            <th style="padding:12px 20px;text-align:center;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">Nilai Angka</th>
+                            <th style="padding:12px 20px;text-align:center;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">Nilai Huruf</th>
+                            <th style="padding:12px 20px;text-align:right;font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #F3F4F6;">Bobot × SKS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($sem['matkul'] as $mk)
+                        @php
+                            $bobot = match($mk->nilai_huruf) { 'A'=>4.0,'B+'=>3.5,'B'=>3.0,'C+'=>2.5,'C'=>2.0,'D'=>1.0,default=>0.0 };
+                            $gradeFirst = substr($mk->nilai_huruf ?? 'E', 0, 1);
+                            $gradeColor = match($gradeFirst) { 'A'=>['#ECFDF5','#059669'], 'B'=>['#EFF6FF','#2563EB'], 'C'=>['#FFF7ED','#D97706'], default=>['#FEF2F2','#DC2626'] };
+                        @endphp
+                        <tr style="border-bottom:1px solid #F3F4F6;">
+                            <td style="padding:14px 20px;">
+                                <span style="background:#F3F4F6;color:#4B5563;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800;">{{ $mk->kode_matkul }}</span>
+                            </td>
+                            <td style="padding:14px 20px;font-size:14px;font-weight:700;color:#111827;">{{ $mk->nama_matkul }}</td>
+                            <td style="padding:14px 20px;text-align:center;font-size:14px;font-weight:600;color:#4B5563;">{{ $mk->sks }}</td>
+                            <td style="padding:14px 20px;text-align:center;font-size:15px;font-weight:800;color:#1B3679;">{{ number_format($mk->nilai_angka ?? 0, 2) }}</td>
+                            <td style="padding:14px 20px;text-align:center;">
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;font-size:13px;font-weight:800;background:{{ $gradeColor[0] }};color:{{ $gradeColor[1] }};">{{ $mk->nilai_huruf ?? '-' }}</span>
+                            </td>
+                            <td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;color:#6B7280;">{{ number_format($bobot * $mk->sks, 2) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr style="background:#F8FAFC;">
+                            <td colspan="2" style="padding:14px 20px;font-size:13px;font-weight:800;color:#1B3679;">Total</td>
+                            <td style="padding:14px 20px;text-align:center;font-size:14px;font-weight:800;color:#1B3679;">{{ $sem['total_sks'] }}</td>
+                            <td></td>
+                            <td></td>
+                            <td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:800;color:#1B3679;">{{ number_format($sem['total_bobot'], 2) }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
 </div>
+
+<style>
+.riwayat-block {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #F3F4F6;
+    transition: box-shadow 0.2s;
+}
+.riwayat-block:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
+.riwayat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    cursor: pointer;
+    user-select: none;
+}
+.riwayat-header:hover { background: #FAFAFA; }
+.riwayat-sem-badge {
+    background: #EEF2FF;
+    color: #1B3679;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 800;
+}
+.riwayat-detail { border-top: 1px solid #F3F4F6; overflow-x: auto; }
+</style>
+
+<script>
+function toggleRiwayat(semId) {
+    const detail = document.getElementById('detail-' + semId);
+    const chevron = document.getElementById('chevron-' + semId);
+    const isOpen = detail.style.display !== 'none';
+    detail.style.display = isOpen ? 'none' : 'block';
+    chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
 @endsection

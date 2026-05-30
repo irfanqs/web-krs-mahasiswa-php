@@ -217,7 +217,7 @@
         <div class="stat-card">
             <div class="sc-header">
                 <div class="sc-icon"><i class="bi bi-book"></i></div>
-                <div class="sc-label">COURSES</div>
+                <div class="sc-label">MATKUL</div>
             </div>
             <div class="sc-value">{{ $jumlahMatkul }}</div>
             <div class="sc-subtext">Mata Kuliah Diampu</div>
@@ -226,7 +226,7 @@
         <div class="stat-card">
             <div class="sc-header">
                 <div class="sc-icon"><i class="bi bi-people"></i></div>
-                <div class="sc-label">STUDENTS</div>
+                <div class="sc-label">MAHASISWA</div>
             </div>
             <div class="sc-value">{{ $jumlahMahasiswa }}</div>
             <div class="sc-subtext">Total Mahasiswa</div>
@@ -235,7 +235,7 @@
         <div class="stat-card orange-border">
             <div class="sc-header">
                 <div class="sc-icon"><i class="bi bi-journal-check"></i></div>
-                <div class="sc-label">GRADING</div>
+                <div class="sc-label">PENILAIAN</div>
             </div>
             <div class="sc-value">{{ $jumlahGrading }}</div>
             <div class="sc-subtext">Input Nilai Berjalan</div>
@@ -243,8 +243,8 @@
 
         <div class="promo-card">
             <div>
-                <div class="pc-title">Grading Period Active</div>
-                <div class="pc-desc">Semester Genap 2023/2024 closing in 5 days. Ensure all final projects are reviewed.</div>
+                <div class="pc-title">Periode Penilaian Aktif</div>
+                <div class="pc-desc">Semester Genap 2025/2026 berakhir dalam 5 hari. Pastikan semua nilai akhir telah ditinjau.</div>
             </div>
             <a href="{{ route('dosen.input_nilai') }}" class="btn-promo">
                 <i class="bi bi-pencil-square"></i> Input Nilai Sekarang
@@ -271,9 +271,9 @@
                             <div class="ji-title">{{ $j->nama_matkul }}</div>
                             <div class="ji-room">
                                 @if(strtolower($j->ruang) == 'online')
-                                    <i class="bi bi-camera-video"></i> Online Meeting
+                                    <i class="bi bi-camera-video"></i> Pertemuan Online
                                 @else
-                                    <i class="bi bi-geo-alt"></i> Room {{ $j->ruang }}
+                                    <i class="bi bi-geo-alt"></i> Ruang {{ $j->ruang }}
                                 @endif
                             </div>
                         </div>
@@ -304,7 +304,7 @@
                         <div class="mk-item">
                             <div class="mk-header">
                                 <div class="mk-title">{{ $m->nama_matkul }}</div>
-                                <div class="mk-students">{{ $m->enrolled }}/{{ $m->kuota }} Students</div>
+                                <div class="mk-students">{{ $m->enrolled }}/{{ $m->kuota }} Mahasiswa</div>
                             </div>
                             <div class="mk-progress">
                                 <div class="mk-bar" style="width:{{ $m->kuota > 0 ? ($m->enrolled/$m->kuota)*100 : 0 }}%"></div>
@@ -322,8 +322,8 @@
 
             <div class="campus-card">
                 <div class="cc-overlay">
-                    <div class="cc-lbl">CAMPUS INFO</div>
-                    <div class="cc-title">Engineering Tower - 4th Floor Renovation</div>
+                    <div class="cc-lbl">INFO KAMPUS</div>
+                    <div class="cc-title">Gedung Teknik - Renovasi Lantai 4</div>
                 </div>
             </div>
         </div>

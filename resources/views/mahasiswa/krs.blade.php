@@ -36,9 +36,8 @@
 
     /* Search */
     .search-box { position: relative; }
-    .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9CA3AF; font-size: 15px; pointer-events: none; }
     .search-input {
-        width: 100%; padding: 11px 14px 11px 40px; border: 1.5px solid #E5E7EB; border-radius: 10px;
+        width: 100%; padding: 11px 12px; border: 1.5px solid #E5E7EB; border-radius: 10px;
         font-size: 13px; color: #111827; background: white; outline: none; box-sizing: border-box;
         transition: border-color 0.2s;
     }
@@ -144,6 +143,17 @@
         padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: not-allowed;
         display: flex; align-items: center; justify-content: center; gap: 6px;
     }
+    .btn-locked {
+        flex: 1; background: #FEF3C7; color: #92400E; border: 1.5px solid #FDE68A;
+        padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: not-allowed;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .lock-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A;
+        padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
     .course-card.is-enrolled .btn-enrol { display: none; }
     .course-card.is-enrolled .btn-drop { display: flex; }
 
@@ -200,19 +210,19 @@
     {{-- Stats Bar --}}
     <div class="stats-bar">
         <div class="stat-chip stat-chip-navy">
-            <div class="stat-label">Max Credits</div>
+            <div class="stat-label">Maks SKS</div>
             <div class="stat-val" id="stat-max">{{ $maxSks }} <small>SKS</small></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-label">Enrolled</div>
+            <div class="stat-label">Diambil</div>
             <div class="stat-val" id="stat-selected">{{ $currentSks }} <small>SKS</small></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-label">Balance</div>
+            <div class="stat-label">Sisa</div>
             <div class="stat-val" id="stat-balance">{{ $maxSks - $currentSks }} <small>SKS</small></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-label">Courses</div>
+            <div class="stat-label">Matkul</div>
             <div class="stat-val" id="stat-courses">{{ count(array_filter((array)$selectedJadwal)) }} <small>matkul</small></div>
         </div>
     </div>
@@ -222,20 +232,19 @@
         <div class="sidebar-panel">
             {{-- Search --}}
             <div class="panel-card">
-                <div class="panel-title">Search Courses</div>
+                <div class="panel-title">Cari Mata Kuliah</div>
                 <div class="search-box">
-                    <i class="bi bi-search"></i>
                     <input type="text" id="search-input" class="search-input" placeholder="Kode atau nama matkul..." autocomplete="off">
                 </div>
                 <button class="btn-search-full" onclick="doSearch()">
-                    <i class="bi bi-search"></i> Search
+                    <i class="bi bi-search"></i> Cari
                 </button>
             </div>
 
             {{-- Enrollment Status --}}
             <div class="enroll-status-card">
-                <div class="es-label">Enrollment Status</div>
-                <div class="es-phase">Phase 1: Open</div>
+                <div class="es-label">Status Pendaftaran</div>
+                <div class="es-phase">Fase 1: Dibuka</div>
                 <div class="es-bar"><div class="es-bar-fill"></div></div>
                 <div class="es-footer">
                     @if($semesterAktif)
@@ -248,14 +257,14 @@
 
             {{-- Course Categories --}}
             <div class="panel-card">
-                <div class="panel-title">Course Categories</div>
+                <div class="panel-title">Kategori Mata Kuliah</div>
                 <ul class="cat-list">
                     <li class="cat-item active" data-cat="all" onclick="filterCategory('all', this)">
-                        <span>All Courses</span>
+                        <span>Semua Matkul</span>
                         <span class="cat-badge">{{ count($availableCourses) }}</span>
                     </li>
                     <li class="cat-item" data-cat="enrolled" onclick="filterCategory('enrolled', this)">
-                        <span>Enrolled</span>
+                        <span>Sudah Diambil</span>
                         <span class="cat-badge" id="cat-enrolled-count">{{ count(array_filter((array)$selectedJadwal)) }}</span>
                     </li>
                     @foreach($grouped as $catName => $courses)
@@ -281,6 +290,7 @@
                 @php
                     $isEnrolled = isset($selectedJadwal[$course->id_jadwal]);
                     $isFull = $course->sks_terdaftar >= $course->kuota && !$isEnrolled;
+                    $isLocked = $course->jenis === 'wajib' && $course->semester > $studentSemester;
                     $bannerClass = $bannerClasses[$i % count($bannerClasses)];
                     $catKey = 'Semester ' . $course->semester;
                 @endphp
@@ -293,11 +303,16 @@
                     onclick="togglePanel(this)">
 
                     <div class="cc-banner {{ $bannerClass }}">
-                        <div class="enrolled-badge"><i class="bi bi-check-circle-fill"></i> Enrolled</div>
+                        <div class="enrolled-badge"><i class="bi bi-check-circle-fill"></i> Terdaftar</div>
                     </div>
 
                     <div class="cc-body">
-                        <div class="cc-category">{{ $course->kode_matkul }} &bull; {{ $course->jenis === 'wajib' ? 'Mata Kuliah Wajib' : 'Mata Kuliah Pilihan' }}</div>
+                        <div class="cc-category">
+                            {{ $course->kode_matkul }} &bull; {{ $course->jenis === 'wajib' ? 'Mata Kuliah Wajib' : 'Mata Kuliah Pilihan' }}
+                            @if($isLocked)
+                                &nbsp;<span class="lock-badge"><i class="bi bi-lock-fill"></i> Sem. {{ $course->semester }}</span>
+                            @endif
+                        </div>
                         <h3 class="cc-name">{{ $course->nama_matkul }}</h3>
                         <div class="cc-meta">
                             <span><i class="bi bi-journal-text"></i>{{ $course->sks }} SKS</span>
@@ -307,22 +322,26 @@
 
                         {{-- Enrollment Panel --}}
                         <div class="cc-enroll-panel" onclick="event.stopPropagation()">
-                            <div class="ep-title">Self Enrolment (Student)</div>
+                            <div class="ep-title">Pendaftaran Mandiri</div>
                             <div class="ep-desc">
                                 {{ $course->ruang }} &bull; {{ $course->nama_dosen }}
                                 @if($isFull) &bull; <span style="color:#DC2626;">Kelas Penuh</span> @endif
                             </div>
                             <div class="ep-row">
-                                @if($isFull)
+                                @if($isLocked)
+                                    <button class="btn-locked" disabled>
+                                        <i class="bi bi-lock-fill"></i> Tersedia di Semester {{ $course->semester }}
+                                    </button>
+                                @elseif($isFull)
                                     <button class="btn-full-disabled" disabled>
                                         <i class="bi bi-slash-circle"></i> Kelas Penuh
                                     </button>
                                 @else
                                     <button class="btn-enrol" onclick="enrollCourse({{ $course->id_jadwal }}, this)">
-                                        <i class="bi bi-plus-circle"></i> Enrol me
+                                        <i class="bi bi-plus-circle"></i> Daftar
                                     </button>
                                     <button class="btn-drop" onclick="dropCourse({{ $course->id_jadwal }}, this)">
-                                        <i class="bi bi-dash-circle"></i> Drop Course
+                                        <i class="bi bi-dash-circle"></i> Batalkan
                                     </button>
                                 @endif
                             </div>
@@ -362,7 +381,7 @@ function togglePanel(card) {
 // ── Enroll single course ─────────────────────────────────────────────────────
 function enrollCourse(idJadwal, btn) {
     btn.disabled = true;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Enrolling...';
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Mendaftar...';
 
     fetch(ENROLL_URL, {
         method: 'POST',
@@ -377,23 +396,23 @@ function enrollCourse(idJadwal, btn) {
             updateStats(data.current_sks, data.max_sks);
             showToast(data.message, 'success');
         } else {
-            showToast(data.message || 'Gagal enroll.', 'error');
+            showToast(data.message || 'Gagal mendaftar.', 'error');
             btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-plus-circle"></i> Enrol me';
+            btn.innerHTML = '<i class="bi bi-plus-circle"></i> Daftar';
         }
     })
     .catch(() => {
         showToast('Terjadi kesalahan jaringan.', 'error');
         btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-plus-circle"></i> Enrol me';
+        btn.innerHTML = '<i class="bi bi-plus-circle"></i> Daftar';
     });
 }
 
 // ── Drop single course ───────────────────────────────────────────────────────
 function dropCourse(idJadwal, btn) {
-    if (!confirm('Yakin ingin drop mata kuliah ini?')) return;
+    if (!confirm('Yakin ingin membatalkan mata kuliah ini dari KRS?')) return;
     btn.disabled = true;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Dropping...';
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Membatalkan...';
 
     fetch(DROP_URL, {
         method: 'POST',
@@ -408,17 +427,17 @@ function dropCourse(idJadwal, btn) {
             updateStats(data.current_sks, data.max_sks);
             showToast(data.message, 'success');
             btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-dash-circle"></i> Drop Course';
+            btn.innerHTML = '<i class="bi bi-dash-circle"></i> Batalkan';
         } else {
-            showToast(data.message || 'Gagal drop.', 'error');
+            showToast(data.message || 'Gagal membatalkan.', 'error');
             btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-dash-circle"></i> Drop Course';
+            btn.innerHTML = '<i class="bi bi-dash-circle"></i> Batalkan';
         }
     })
     .catch(() => {
         showToast('Terjadi kesalahan jaringan.', 'error');
         btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-dash-circle"></i> Drop Course';
+        btn.innerHTML = '<i class="bi bi-dash-circle"></i> Batalkan';
     });
 }
 

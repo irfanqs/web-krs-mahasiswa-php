@@ -6,7 +6,7 @@
     .input-nilai-container {
         max-width: 1400px;
         margin: 0 auto;
-        padding-bottom: 120px; /* Space for large sticky footer */
+        padding-bottom: 80px;
     }
 
     /* Header Section */
@@ -190,57 +190,95 @@
     .status-unsaved { color: #2563EB; display: flex; align-items: center; gap: 6px; }
     .status-unsaved::before { content: ''; width: 6px; height: 6px; background: #2563EB; border-radius: 50%; }
 
-    /* Sticky Footer */
+    /* Bottom Bar (respects sidebar) */
     .footer-wrapper {
         position: fixed;
-        bottom: 0; left: 0; right: 0;
+        bottom: 0;
+        left: var(--sidebar-width, 260px);
+        right: 0;
+        z-index: 99;
         background: white;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-        z-index: 100;
-    }
-    .footer-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 24px 32px;
+        border-top: 1px solid #E5E7EB;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.05);
+        padding: 14px 48px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 40px;
+        gap: 24px;
     }
-    .info-box {
-        display: flex;
-        gap: 16px;
-        border-left: 4px solid #2563EB;
-        padding: 8px 16px;
-        background: #EFF6FF;
-        border-radius: 0 12px 12px 0;
-        flex: 1;
+    .footer-hint {
+        font-size: 12px;
+        font-weight: 600;
+        color: #6B7280;
     }
-    .info-box i { font-size: 24px; color: #2563EB; }
-    .ib-title { font-size: 14px; font-weight: 800; color: #1E3A8A; margin-bottom: 4px; }
-    .ib-desc { font-size: 12px; color: #3B82F6; line-height: 1.5; }
-    
     .btn-submit {
         background: #1B3679;
         color: white;
         border: none;
-        padding: 14px 32px;
-        border-radius: 12px;
+        padding: 14px 28px;
+        border-radius: 14px;
         font-size: 15px;
         font-weight: 800;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(27,54,121,0.2);
+        box-shadow: 0 6px 20px rgba(27,54,121,0.3);
         transition: all 0.2s;
         white-space: nowrap;
     }
-    .btn-submit:hover { background: #11235A; transform: translateY(-2px); }
+    .btn-submit:hover { background: #11235A; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(27,54,121,0.35); }
+    .btn-submit:disabled { background: #9CA3AF; box-shadow: none; transform: none; cursor: not-allowed; }
+
+    /* Input error state */
+    .grade-input.input-error {
+        background: #FEF2F2;
+        border-color: #EF4444 !important;
+        color: #DC2626;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+    }
+    .toast {
+        background: white;
+        border-radius: 12px;
+        padding: 14px 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        min-width: 280px;
+        max-width: 400px;
+        pointer-events: all;
+        animation: slideIn 0.25s ease;
+        border-left: 4px solid #10B981;
+    }
+    .toast.toast-error { border-left-color: #EF4444; }
+    .toast.toast-warning { border-left-color: #F59E0B; }
+    .toast i { font-size: 20px; flex-shrink: 0; }
+    .toast.toast-success i { color: #10B981; }
+    .toast.toast-error i { color: #EF4444; }
+    .toast.toast-warning i { color: #F59E0B; }
+    .toast-body { flex: 1; }
+    .toast-title { color: #111827; margin-bottom: 2px; }
+    .toast-msg { font-size: 12px; color: #6B7280; font-weight: 500; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(40px); } }
 
     @media(max-width: 1024px) {
         .top-cards { grid-template-columns: 1fr; }
-        .footer-content { flex-direction: column; align-items: stretch; }
+        .footer-wrapper { bottom: 16px; right: 16px; }
     }
 </style>
 @endpush
@@ -251,13 +289,13 @@
 <div class="input-nilai-container">
     <div class="header-section">
         <div class="header-text">
-            <div class="academic-term"><i class="bi bi-mortarboard"></i> ACADEMIC YEAR 2023/2024</div>
+            <div class="academic-term"><i class="bi bi-mortarboard"></i> TAHUN AKADEMIK 2025/2026</div>
             <h1 class="page-title">Input Nilai: {{ $jadwalInfo ? $jadwalInfo->nama_matkul : 'Pilih Kelas' }} {{ $jadwalInfo ? '('.$jadwalInfo->kode_matkul.')' : '' }}</h1>
-            <p class="page-subtitle">Manage and evaluate student performance for the current semester. Changes are saved locally until submitted to the registrar.</p>
+            <p class="page-subtitle">Kelola dan evaluasi performa mahasiswa untuk semester ini. Perubahan disimpan sementara hingga dikirimkan ke registrar.</p>
         </div>
         
         <form method="GET" class="class-selector">
-            <span class="cs-label">CLASS SELECTION</span>
+            <span class="cs-label">PILIH KELAS</span>
             <select name="id_jadwal" onchange="this.form.submit()" class="cs-select">
                 @if(!$jadwalInfo) <option value="" selected disabled>-- Pilih Kelas --</option> @endif
                 @foreach($jadwalDosen as $j)
@@ -274,17 +312,17 @@
         <div class="metrics-card">
             <div class="metric-group">
                 <div class="metric-item">
-                    <span class="m-label">TOTAL ENROLLED</span>
+                    <span class="m-label">TOTAL TERDAFTAR</span>
                     <span class="m-value">{{ $totalEnrolled }}</span>
                 </div>
                 <div class="divider"></div>
                 <div class="metric-item">
-                    <span class="m-label">GRADED</span>
+                    <span class="m-label">SUDAH DINILAI</span>
                     <span class="m-value">{{ $graded }} <span class="m-sub">/ {{ $totalEnrolled }}</span></span>
                 </div>
                 <div class="divider"></div>
                 <div class="metric-item">
-                    <span class="m-label">AVG. SCORE</span>
+                    <span class="m-label">RATA-RATA NILAI</span>
                     <span class="m-value">{{ number_format($avgScore, 1) }}</span>
                 </div>
             </div>
@@ -300,9 +338,9 @@
 
         <div class="deadline-card">
             <i class="bi bi-stopwatch dl-icon"></i>
-            <div class="dl-label">DEADLINE SUBMISSION</div>
-            <div class="dl-value">14 Days Remaining</div>
-            <div class="dl-sub">Submit by {{ date('F j, Y', strtotime('+14 days')) }}</div>
+            <div class="dl-label">BATAS PENGUMPULAN</div>
+            <div class="dl-value">14 Hari Tersisa</div>
+            <div class="dl-sub">Batas: {{ date('d F Y', strtotime('+14 days')) }}</div>
         </div>
     </div>
     @endif
@@ -314,11 +352,11 @@
         <div class="table-toolbar">
             <div class="search-box">
                 <i class="bi bi-search"></i>
-                <input type="text" id="searchInput" placeholder="Filter by Name or NIM...">
+                <input type="text" id="searchInput" placeholder="Filter nama atau NIM...">
             </div>
             <div class="toolbar-actions">
                 <div class="tb-action"><i class="bi bi-download"></i> EXPORT XLS</div>
-                <div class="tb-action"><i class="bi bi-upload"></i> IMPORT BULK</div>
+                <div class="tb-action"><i class="bi bi-upload"></i> IMPOR MASSAL</div>
             </div>
         </div>
         
@@ -345,7 +383,7 @@
                     <td class="col-nim">{{ $m->nim }}</td>
                     <td>
                         <div class="col-name">{{ $m->nama }}</div>
-                        <div class="col-sub">Regular Class</div>
+                        <div class="col-sub">Kelas Reguler</div>
                     </td>
                     <td style="text-align:center;">
                         @if($locked)
@@ -378,10 +416,10 @@
                     </td>
                     <td style="text-align:right;">
                         @if($locked)
-                            <span class="status-text" style="color:#6B7280;">Saved</span>
+                            <span class="status-text" style="color:#6B7280;">Tersimpan</span>
                         @else
-                            <span class="status-indicator status-text {{ ($m->tugas!==null && $m->uts!==null && $m->uas!==null) ? 'status-unsaved' : '' }}">
-                                {{ ($m->tugas!==null && $m->uts!==null && $m->uas!==null) ? 'Unsaved' : 'Saved' }}
+                            <span class="status-indicator status-text {{ ($m->tugas===null || $m->uts===null || $m->uas===null) ? '' : '' }}">
+                                {{ ($m->tugas!==null && $m->uts!==null && $m->uas!==null) ? 'Tersimpan' : '-' }}
                             </span>
                         @endif
                     </td>
@@ -391,7 +429,7 @@
         </table>
         
         <div style="padding: 24px 32px; font-size: 11px; font-weight: 800; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; border-top: 1px solid #F3F4F6;">
-            SHOWING {{ count($mahasiswaList) }} STUDENTS
+            MENAMPILKAN {{ count($mahasiswaList) }} MAHASISWA
         </div>
     </div>
     </form>
@@ -407,36 +445,42 @@
 
 @if($jadwalInfo && $mahasiswaList->isNotEmpty())
 <div class="footer-wrapper">
-    <div class="footer-content">
-        <div class="info-box">
-            <i class="bi bi-info-circle"></i>
-            <div>
-                <div class="ib-title">Pedoman Penilaian</div>
-                <div class="ib-desc">Nilai Huruf dihitung otomatis berdasarkan akumulasi bobot. Pastikan seluruh komponen nilai telah terisi sebelum melakukan penyimpanan. Komponen nilai akan dikunci secara otomatis pada akhir periode (Final Submission).</div>
-            </div>
-        </div>
-        
-        <button id="btn-save-nilai" class="btn-submit" type="button">
-            <i class="bi bi-floppy"></i> Simpan Perubahan
-        </button>
-    </div>
+    <div class="footer-hint">Bobot: Tugas 20% · UTS 30% · UAS 50%</div>
+    <button id="btn-save-nilai" class="btn-submit" type="button">
+        <i class="bi bi-floppy"></i> Simpan Perubahan
+    </button>
 </div>
 @endif
+
+<div class="toast-container" id="toastContainer"></div>
 
 @endsection
 
 @push('scripts')
 <script>
-// Search Filter functionality
+// ── Toast helper ──────────────────────────────────────────────
+function showToast(title, msg, type = 'success') {
+    const icons = { success: 'bi-check-circle-fill', error: 'bi-x-circle-fill', warning: 'bi-exclamation-triangle-fill' };
+    const container = document.getElementById('toastContainer');
+    const el = document.createElement('div');
+    el.className = 'toast toast-' + type;
+    el.innerHTML = `<i class="bi ${icons[type]}"></i><div class="toast-body"><div class="toast-title">${title}</div>${msg ? '<div class="toast-msg">' + msg + '</div>' : ''}</div>`;
+    container.appendChild(el);
+    setTimeout(() => {
+        el.style.animation = 'slideOut 0.25s ease forwards';
+        setTimeout(() => el.remove(), 260);
+    }, 3500);
+}
+
+// ── Search ────────────────────────────────────────────────────
 document.getElementById('searchInput')?.addEventListener('keyup', function() {
-    let filter = this.value.toLowerCase();
-    let rows = document.querySelectorAll('.student-row');
-    rows.forEach(row => {
-        let text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
+    const filter = this.value.toLowerCase();
+    document.querySelectorAll('.student-row').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
     });
 });
 
+// ── Helpers ───────────────────────────────────────────────────
 function hitungNilaiHuruf(angka) {
     if (angka >= 85) return 'A';
     if (angka >= 70) return 'B+';
@@ -447,61 +491,90 @@ function hitungNilaiHuruf(angka) {
     return 'E';
 }
 function badgeClass(huruf) {
-    if (!huruf) return '';
-    const first = huruf.charAt(0);
     const map = {'A':'b-A','B':'b-B','C':'b-C','D':'b-D','E':'b-E'};
-    return map[first] || 'b-C';
+    return map[huruf?.charAt(0)] || 'b-C';
 }
 
-// Live calculation
+// ── Per-input validation ──────────────────────────────────────
+function validateInput(input) {
+    const val = parseFloat(input.value);
+    if (input.value === '') { input.classList.remove('input-error'); return true; }
+    if (isNaN(val) || val < 0 || val > 100) {
+        input.classList.add('input-error');
+        return false;
+    }
+    input.classList.remove('input-error');
+    return true;
+}
+
+// ── Live calculation ──────────────────────────────────────────
+let errorToastShown = false;
 document.querySelectorAll('.student-row').forEach(row => {
     const inputs = row.querySelectorAll('.grade-input');
     if (inputs.length < 3 || inputs[0].tagName !== 'INPUT') return;
-    
+
     function recalc() {
+        let hasError = false;
+        inputs.forEach(inp => { if (!validateInput(inp)) hasError = true; });
+
+        if (hasError) {
+            if (!errorToastShown) {
+                showToast('Nilai tidak valid', 'Nilai harus berada di antara 0 – 100.', 'error');
+                errorToastShown = true;
+                setTimeout(() => errorToastShown = false, 3600);
+            }
+            return;
+        }
+
         const t = parseFloat(inputs[0].value);
         const u = parseFloat(inputs[1].value);
         const a = parseFloat(inputs[2].value);
-        
-        const isComplete = !isNaN(t) && !isNaN(u) && !isNaN(a);
-        
-        if (isComplete) {
-            const angka = Math.round((0.2*t + 0.3*u + 0.5*a)*100)/100;
-            const huruf = hitungNilaiHuruf(angka);
-            row.querySelector('.nilai-angka').textContent = angka.toFixed(2);
-            const hurufEl = row.querySelector('.nilai-huruf');
-            hurufEl.textContent = huruf;
-            hurufEl.className = 'badge-huruf nilai-huruf ' + badgeClass(huruf);
-            
-            // Mark as unsaved
-            const statusEl = row.querySelector('.status-indicator');
-            if (statusEl) {
-                statusEl.textContent = 'Unsaved';
-                statusEl.className = 'status-indicator status-text status-unsaved';
-            }
+        if (isNaN(t) || isNaN(u) || isNaN(a)) return;
+
+        const angka = Math.round((0.2*t + 0.3*u + 0.5*a)*100)/100;
+        const huruf = hitungNilaiHuruf(angka);
+        row.querySelector('.nilai-angka').textContent = angka.toFixed(2);
+        const hurufEl = row.querySelector('.nilai-huruf');
+        hurufEl.textContent = huruf;
+        hurufEl.className = 'badge-huruf nilai-huruf ' + badgeClass(huruf);
+        const statusEl = row.querySelector('.status-indicator');
+        if (statusEl) {
+            statusEl.textContent = 'Belum Disimpan';
+            statusEl.className = 'status-indicator status-text status-unsaved';
         }
     }
     inputs.forEach(i => i.addEventListener('input', recalc));
 });
 
-// Save Data
+// ── Save Data ─────────────────────────────────────────────────
 document.getElementById('btn-save-nilai')?.addEventListener('click', function() {
+    // Client-side pre-save validation
+    let invalid = [];
+    document.querySelectorAll('.student-row').forEach(row => {
+        const inputs = row.querySelectorAll('input.grade-input');
+        inputs.forEach(inp => {
+            if (!validateInput(inp)) {
+                const name = row.querySelector('.col-name')?.textContent?.trim() || 'mahasiswa';
+                if (!invalid.includes(name)) invalid.push(name);
+            }
+        });
+    });
+    if (invalid.length) {
+        showToast('Tidak dapat menyimpan', `Nilai di luar rentang 0–100 pada: ${invalid.slice(0,3).join(', ')}${invalid.length > 3 ? ', ...' : ''}.`, 'error');
+        return;
+    }
+
     const payload = {};
     document.querySelectorAll('.student-row').forEach(row => {
         const idKrs = row.dataset.idKrs;
         const inputs = row.querySelectorAll('input.grade-input');
         if (inputs.length < 3) return;
-        
-        payload[idKrs] = {
-            tugas: inputs[0].value,
-            uts: inputs[1].value,
-            uas: inputs[2].value,
-        };
+        payload[idKrs] = { tugas: inputs[0].value, uts: inputs[1].value, uas: inputs[2].value };
     });
-    
+
     this.disabled = true;
     this.innerHTML = '<i class="bi bi-hourglass-split"></i> Menyimpan...';
-    
+
     fetch('{{ route('dosen.input_nilai.save') }}', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -509,19 +582,19 @@ document.getElementById('btn-save-nilai')?.addEventListener('click', function() 
     })
     .then(r => r.json())
     .then(d => {
-        if (d.ok) { 
-            alert('Nilai berhasil disimpan!'); 
-            location.reload(); 
-        } else { 
-            alert('Gagal: ' + (d.errors ? d.errors.join(', ') : 'Error')); 
+        if (d.ok) {
+            showToast('Nilai berhasil disimpan!', 'Semua perubahan telah tersimpan ke sistem.', 'success');
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast('Gagal menyimpan', d.errors ? d.errors.join(', ') : 'Terjadi kesalahan.', 'error');
         }
         this.disabled = false;
         this.innerHTML = '<i class="bi bi-floppy"></i> Simpan Perubahan';
     })
-    .catch(e => { 
-        alert('Error: ' + e.message); 
-        this.disabled = false; 
-        this.innerHTML = '<i class="bi bi-floppy"></i> Simpan Perubahan'; 
+    .catch(e => {
+        showToast('Koneksi gagal', e.message, 'error');
+        this.disabled = false;
+        this.innerHTML = '<i class="bi bi-floppy"></i> Simpan Perubahan';
     });
 });
 </script>

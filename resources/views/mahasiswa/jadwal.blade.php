@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Weekly Schedule')
+@section('title', 'Jadwal Mingguan')
 
 @push('styles')
 <style>
@@ -201,9 +201,9 @@
 
 <div class="header-section">
     <div>
-        <div style="font-size: 11px; font-weight: 800; color: #1B3679; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Student Academic Flow</div>
-        <h1 class="page-title">Weekly Schedule</h1>
-        <p class="page-subtitle">Academic Year {{ $semesterSelected->tahun_ajaran ?? '2023/2024' }} &mdash; {{ ucfirst($semesterSelected->tingkatan_semester ?? 'Ganjil') }} Semester</p>
+        <div style="font-size: 11px; font-weight: 800; color: #1B3679; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Alur Akademik Mahasiswa</div>
+        <h1 class="page-title">Jadwal Mingguan</h1>
+        <p class="page-subtitle">Academic Year {{ $semesterSelected->tahun_ajaran ?? '2025/2026' }} &mdash; {{ ucfirst($semesterSelected->tingkatan_semester ?? 'Genap') }} Semester</p>
     </div>
     <div class="header-actions">
         <form method="GET">
@@ -216,7 +216,7 @@
             </select>
         </form>
         <button onclick="window.print()" class="btn-download">
-            <i class="bi bi-download"></i> Download Schedule
+            <i class="bi bi-download"></i> Unduh Jadwal
         </button>
     </div>
 </div>
@@ -265,27 +265,27 @@
         </div>
 
         <div class="schedule-legend">
-            <div class="legend-item"><div class="legend-dot dot-major"></div> Major Courses</div>
-            <div class="legend-item"><div class="legend-dot dot-elective"></div> Selected Electives</div>
-            <div class="legend-item"><div class="legend-dot dot-minor"></div> Minor Courses</div>
-            <div class="legend-item"><div class="legend-dot dot-research"></div> Research/Lab</div>
-            <div class="legend-updated">* Last updated on {{ now()->format('M d, Y \a\t h:i A') }}</div>
+            <div class="legend-item"><div class="legend-dot dot-major"></div> Mata Kuliah Wajib</div>
+            <div class="legend-item"><div class="legend-dot dot-elective"></div> Mata Kuliah Pilihan</div>
+            <div class="legend-item"><div class="legend-dot dot-minor"></div> Mata Kuliah Minor</div>
+            <div class="legend-item"><div class="legend-dot dot-research"></div> Praktikum/Lab</div>
+            <div class="legend-updated">* Terakhir diperbarui {{ now()->format('d M Y \p\u\k\u\l H:i') }}</div>
         </div>
     </div>
 
     <!-- RIGHT: Sidebars -->
     <div class="right-col">
         <div class="credits-card">
-            <div class="credits-header">TOTAL CREDITS</div>
+            <div class="credits-header">TOTAL SKS</div>
             <div class="credits-value">{{ $totalSks }} <span>SKS</span></div>
             <div class="credits-footer">
-                <span class="credits-status">Status: Active</span>
-                <span class="credits-badge">{{ $totalSks >= 20 ? 'Full Load' : 'Normal Load' }}</span>
+                <span class="credits-status">Status: Aktif</span>
+                <span class="credits-badge">{{ $totalSks >= 20 ? 'Beban Penuh' : 'Beban Normal' }}</span>
             </div>
         </div>
 
         <div class="lecturers-card">
-            <div class="lecturers-header">TODAY'S LECTURERS</div>
+            <div class="lecturers-header">DOSEN HARI INI</div>
             @forelse($dosenHariIni as $d)
                 @php
                     // Get initials
@@ -303,10 +303,10 @@
                         <div class="lecturer-name">{{ $d->nama_dosen }}</div>
                         <div class="lecturer-subj">{{ $d->nama_matkul }}</div>
                     </div>
-                    <i class="bi bi-chat-left-text lecturer-msg" title="Message Lecturer"></i>
+                    <i class="bi bi-chat-left-text lecturer-msg" title="Pesan ke Dosen"></i>
                 </div>
             @empty
-                <p style="font-size:13px;color:#9CA3AF;">No classes scheduled for today.</p>
+                <p style="font-size:13px;color:#9CA3AF;">Tidak ada kelas terjadwal hari ini.</p>
             @endforelse
         </div>
         

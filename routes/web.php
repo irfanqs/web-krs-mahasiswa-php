@@ -21,9 +21,13 @@ use App\Http\Controllers\Admin\JadwalController as AdminJadwal;
 // Root redirect
 Route::get('/', fn() => redirect()->route('login'));
 
-// Auth
+// Auth — Mahasiswa & Dosen
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+
+// Auth — Admin (separate hidden path)
+Route::get('/admin/login', [LoginController::class, 'showAdminLoginForm'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'loginAdmin'])->name('admin.login.post');
 
 // ─── MAHASISWA ───────────────────────────────────────────────────────────────
 Route::middleware('auth.mahasiswa')->prefix('mahasiswa')->name('mahasiswa.')->group(function () {

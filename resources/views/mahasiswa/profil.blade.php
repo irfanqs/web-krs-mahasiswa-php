@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Academic Profile')
+@section('title', 'Profil Akademik')
 
 @push('styles')
 <style>
@@ -249,11 +249,11 @@
 <div class="profile-container">
     <div class="header-section print-hide">
         <div>
-            <h1 class="page-title">Academic Profile</h1>
-            <p class="page-subtitle">Manage and view your official university credentials.</p>
+            <h1 class="page-title">Profil Akademik</h1>
+            <p class="page-subtitle">Kelola dan lihat data resmi akademik Anda.</p>
         </div>
         <button onclick="window.print()" class="btn-print">
-            <i class="bi bi-download"></i> Print Transcript
+            <i class="bi bi-download"></i> Cetak Transkrip
         </button>
     </div>
 
@@ -268,19 +268,19 @@
                 
                 <div class="details-grid">
                     <div class="detail-item">
-                        <span class="d-label">MAJOR</span>
+                        <span class="d-label">PROGRAM STUDI</span>
                         <span class="d-value">{{ $mahasiswa->program_studi }}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="d-label">DEGREE PROGRAM</span>
-                        <span class="d-value">Bachelor's Degree (S1)</span>
+                        <span class="d-label">JENJANG PENDIDIKAN</span>
+                        <span class="d-value">Sarjana (S1)</span>
                     </div>
                     <div class="detail-item">
-                        <span class="d-label">ENTRY YEAR</span>
-                        <span class="d-value">{{ $mahasiswa->angkatan }} (Enrolled)</span>
+                        <span class="d-label">TAHUN MASUK</span>
+                        <span class="d-value">{{ $mahasiswa->angkatan }} (Terdaftar)</span>
                     </div>
                     <div class="detail-item">
-                        <span class="d-label">CURRENT SEMESTER</span>
+                        <span class="d-label">SEMESTER AKTIF</span>
                         <span class="d-value">{{ $semesterAktif ? $semesterAktif->tahun_ajaran : '-' }}</span>
                     </div>
                 </div>
@@ -289,22 +289,22 @@
 
         <div class="right-col-cards">
             <div class="standing-card">
-                <div class="standing-header">ACADEMIC STANDING</div>
+                <div class="standing-header">STATUS AKADEMIK</div>
                 <div class="gpa-row">
                     <div>
                         <div class="gpa-value">{{ number_format($ipk, 2) }}</div>
-                        <div class="gpa-sub">Cumulative GPA (IPK)</div>
+                        <div class="gpa-sub">IPK Kumulatif</div>
                     </div>
                     <div class="chart-icon"><i class="bi bi-graph-up-arrow"></i></div>
                 </div>
                 <div class="standing-footer">
                     <div class="sf-item">
                         <span class="sf-val">{{ $sksTempuh }}</span>
-                        <span class="sf-lbl">SKS EARNED</span>
+                        <span class="sf-lbl">SKS DITEMPUH</span>
                     </div>
                     <div class="sf-item" style="text-align: right;">
                         <span class="sf-val">{{ $predikat }}</span>
-                        <span class="sf-lbl">PREDICATES</span>
+                        <span class="sf-lbl">PREDIKAT</span>
                     </div>
                 </div>
             </div>
@@ -313,60 +313,60 @@
                 <div class="status-header">
                     <div class="status-icon"><i class="bi bi-check"></i></div>
                     <div>
-                        <div class="st-lbl">ENROLLMENT STATUS</div>
+                        <div class="st-lbl">STATUS PENDAFTARAN</div>
                         <div class="st-val">{{ ucfirst($mahasiswa->status) }} ({{ $semesterAktif ? $semesterAktif->tahun_ajaran : '-' }})</div>
                     </div>
                 </div>
                 <div class="status-bar"><div class="status-bar-fill"></div></div>
-                <div class="status-sub">Study Plan Approved by Supervisor</div>
+                <div class="status-sub">Rencana Studi Disetujui Pembimbing</div>
             </div>
         </div>
     </div>
 
-    <div class="section-heading">Personal Details</div>
+    <div class="section-heading">Data Pribadi</div>
     <div class="personal-grid">
         <div class="pd-card">
-            <div class="pd-header"><i class="bi bi-envelope"></i> CONTACT INFO</div>
+            <div class="pd-header"><i class="bi bi-envelope"></i> INFO KONTAK</div>
             <div class="detail-item">
-                <span class="d-label">UNIVERSITY EMAIL</span>
+                <span class="d-label">EMAIL KAMPUS</span>
                 <span class="d-value">{{ $mahasiswa->email ?? strtolower(str_replace(' ','',$mahasiswa->nama)).'@student.university.ac.id' }}</span>
             </div>
             <div class="detail-item">
-                <span class="d-label">PHONE NUMBER</span>
+                <span class="d-label">NOMOR TELEPON</span>
                 <span class="d-value">{{ $mahasiswa->telepon ?? '+62 812-3456-7890' }}</span>
             </div>
         </div>
 
         <div class="pd-card">
-            <div class="pd-header"><i class="bi bi-geo-alt"></i> ADDRESS</div>
+            <div class="pd-header"><i class="bi bi-geo-alt"></i> ALAMAT</div>
             <div class="detail-item">
-                <span class="d-label">HOME ADDRESS</span>
+                <span class="d-label">ALAMAT RUMAH</span>
                 <span class="d-value" style="line-height:1.5;">{{ $mahasiswa->alamat ?? 'Jl. Kebon Jeruk No. 12, Jakarta Barat, DKI Jakarta, 11530' }}</span>
             </div>
         </div>
 
         <div class="pd-card">
-            <div class="pd-header"><i class="bi bi-person-vcard"></i> BIOGRAPHICAL</div>
+            <div class="pd-header"><i class="bi bi-person-vcard"></i> DATA DIRI</div>
             <div class="detail-item">
-                <span class="d-label">PLACE & DATE OF BIRTH</span>
-                <span class="d-value">{{ $mahasiswa->tempat_lahir ?? 'Surabaya' }}, {{ $mahasiswa->tanggal_lahir ?? '14 August 2003' }}</span>
+                <span class="d-label">TEMPAT & TANGGAL LAHIR</span>
+                <span class="d-value">{{ $mahasiswa->tempat_lahir ?? 'Surabaya' }}, {{ $mahasiswa->tanggal_lahir ?? '14 Agustus 2003' }}</span>
             </div>
             <div class="detail-item">
-                <span class="d-label">RELIGION</span>
+                <span class="d-label">AGAMA</span>
                 <span class="d-value">{{ $mahasiswa->agama ?? 'Islam' }}</span>
             </div>
         </div>
     </div>
 
-    <div class="section-heading">Semester Performance</div>
+    <div class="section-heading">Performa Per Semester</div>
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
                     <th>SEMESTER</th>
-                    <th>PERIOD</th>
-                    <th style="text-align:center;">SKS TAKEN</th>
-                    <th style="text-align:center;">SEMESTER GPA (IPS)</th>
+                    <th>PERIODE</th>
+                    <th style="text-align:center;">SKS DIAMBIL</th>
+                    <th style="text-align:center;">IPS</th>
                     <th style="text-align:right;">STATUS</th>
                 </tr>
             </thead>
@@ -378,7 +378,7 @@
                         <td class="sem-sks" style="text-align:center;">{{ $sp->total_sks }}</td>
                         <td class="sem-ips" style="text-align:center;">{{ number_format($sp->ips, 2) }}</td>
                         <td style="text-align:right;">
-                            <span class="badge-pass">PASS</span>
+                            <span class="badge-pass">LULUS</span>
                         </td>
                     </tr>
                 @empty

@@ -60,6 +60,32 @@ class LoginController extends Controller
         return back()->with('error', 'Username atau password salah, atau akun tidak aktif.')->withInput();
     }
 
+    public function showAdminLoginForm()
+    {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('auth.admin-login');
+    }
+
+    public function loginAdmin(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        if (empty($username) || empty($password)) {
+            return back()->with('error', 'Username dan password tidak boleh kosong.')->withInput();
+        }
+
+        $credentials = ['username' => $username, 'password' => $password];
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
+        }
+
+        return back()->with('error', 'Username atau password salah.')->withInput();
+    }
+
     public function logoutMahasiswa(Request $request)
     {
         Auth::guard('mahasiswa')->logout();

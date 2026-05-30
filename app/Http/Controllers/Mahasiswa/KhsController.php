@@ -57,6 +57,48 @@ class KhsController extends Controller
         $ipk = ($ipkData && $ipkData->total_sks > 0) ? round($ipkData->total_bobot / $ipkData->total_sks, 2) : 0;
         $sksTempuh = $ipkData->total_sks ?? 0;
 
-        return view('mahasiswa.khs', compact('mahasiswa','semesters','semesterSelected','nilaiList','ips','ipk','totalSks','totalBobot','sksTempuh'));
+        // Riwayat semua semester yang punya nilai terkunci
+        $allNilai = DB::table('krs as k')
+            ->join('jadwal_kuliah as jk', 'k.id_jadwal', '=', 'jk.id_jadwal')
+            ->join('mata_kuliah as mk', 'jk.id_matkul', '=', 'mk.id_matkul')
+            ->join('nilai as n', 'k.id_krs', '=', 'n.id_krs')
+            ->join('semester as s', 'jk.id_semester', '=', 's.id_semester')
+            ->where('k.id_mahasiswa', $nim)
+            ->where('n.status_kunci', 1)
+            ->select('s.id_semester', 's.tahun_ajaran', 's.tingkatan_semester',
+                     'mk.kode_matkul', 'mk.nama_matkul', 'mk.sks',
+                     'n.nilai_angka', 'n.nilai_huruf')
+            ->orderBy('s.tahun_ajaran')
+            ->orderByRaw("FIELD(s.tingkatan_semester,'ganjil','genap')")
+            ->orderBy('mk.nama_matkul')
+            ->get();
+
+        // Group per semester
+        $riwayat = [];
+        foreach ($allNilai as $row) {
+            $key = $row->id_semester;
+            if (!isset($riwayat[$key])) {
+                $riwayat[$key] = [
+                    'label'     => ucfirst($row->tingkatan_semester) . ' ' . $row->tahun_ajaran,
+                    'matkul'    => [],
+                    'total_sks' => 0,
+                    'total_bobot' => 0,
+                ];
+            }
+            $bobot = match($row->nilai_huruf) { 'A'=>4.0,'B+'=>3.5,'B'=>3.0,'C+'=>2.5,'C'=>2.0,'D'=>1.0,default=>0.0 };
+            $riwayat[$key]['matkul'][]      = $row;
+            $riwayat[$key]['total_sks']     += $row->sks;
+            $riwayat[$key]['total_bobot']   += $bobot * $row->sks;
+        }
+        // Hitung IPS per semester
+        foreach ($riwayat as &$sem) {
+            $sem['ips'] = $sem['total_sks'] > 0 ? round($sem['total_bobot'] / $sem['total_sks'], 2) : 0;
+        }
+        unset($sem);
+
+        return view('mahasiswa.khs', compact(
+            'mahasiswa','semesters','semesterSelected','nilaiList',
+            'ips','ipk','totalSks','totalBobot','sksTempuh','riwayat'
+        ));
     }
 }
